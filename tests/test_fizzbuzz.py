@@ -1,4 +1,5 @@
 import os
+
 notebook_path = os.getcwd()
 while ".ssb_project_root" not in os.listdir():
     os.chdir("../")
@@ -9,9 +10,11 @@ def test_fizz():
     assert fizz(3) == "fizz"
     assert fizz(4) == ""
 
+
 def test_buzz():
     assert buzz(5) == "buzz"
     assert buzz(6) == ""
+
 
 def test_fizzbuzz():
     assert fizzbuzz([15]) == ["fizzbuzz"]
