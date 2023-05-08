@@ -6,7 +6,7 @@ authors = ["Arne Sørli <81353974+arneso-ssb@users.noreply.github.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.12"
+python = ">=3.10,<3.11"
 modin = {extras = ["ray"], version = "^0.20.1"}
 jupyterlab = "^3.6.3"
 

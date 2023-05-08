@@ -2331,10 +2331,7 @@ files = [
 ]
 
 [package.dependencies]
-numpy = [
-    {version = ">=1.21.0", markers = "python_version >= \"3.10\""},
-    {version = ">=1.23.2", markers = "python_version >= \"3.11\""},
-]
+numpy = {version = ">=1.21.0", markers = "python_version >= \"3.10\""}
 python-dateutil = ">=2.8.1"
 pytz = ">=2020.1"
 
@@ -3748,5 +3745,5 @@ test = ["mypy", "pre-commit", "pytest", "pytest-asyncio", "websockets (>=10.0)"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = ">=3.10,<3.12"
-content-hash = "ab084baaaf927283ddbefd6ef4a812253e22696f8ed975cb51902acdd9e0bf58"
+python-versions = ">=3.10,<3.11"
+content-hash = "14b97ea7b47b7d9a2dd29d52eba0904f69e1191e27ada57012723cd6f6c0a880"
