@@ -10,30 +10,36 @@
 # %% [markdown]
 # # Jupytext
 # [Jupytext](https://github.com/mwouts/jupytext)
-# brukes for å kunne lagre Jupyter notebooks som rene python filer. Det gir en rekke
+# brukes for å kunne lagre Jupyter notebooks som rene pythonfiler, det vil si med
+# ending `.py` i stedet for `.ipynb`. Rene pythonfiler gir en rekke
 # fordeler med tanke på versjonskontroll og verktøy for kodekvalitetssjekk, og man
-# slipper også stripping av output.
+# slipper også stripping av output. Du kan fortsatt jobbe med filene som notebooks
+# på vanlig måte.
 #
-# For å åpne en slik python-fil i JupyterLab, høyreklikk på fila og velg
+# For å åpne en slik python-fil som Notebook i JupyterLab, høyreklikk på fila og velg
 # Open With &rarr; Notebook.
 
 # %% [markdown]
 # ## Oppsett
-# Det anbefales å konfigurere jupytext slik som det gjort i fila `pyproject.toml` i
+# Det anbefales å konfigurere jupytext slik som det gjort i fila [pyproject.toml] i
 # dette repoet, linje 34-45. Der bruker man prosent-formatet, noe som gir god støtte
 # i VSCode, PyCharm og andre editorer. Oppsettet stripper også bort unødvendige metadata,
-# slik at man slipper unødvendige oppdateringer og potensielle mergekonflikter.
+# slik at man slipper unødvendige oppdateringer og potensielle mergekonflikter. Oppsettet
+# sørger også for at verktøyet [isort] virker riktig med filene.
+#
+# [pyproject.toml]: https://github.com/statisticsnorway/tech-coach-examples/blob/main/pyproject.toml
+# [isort]: https://pycqa.github.io/isort/
 
 # %% [markdown]
-# En slik jupytext python-fil ser typisk ut som dette i en vanlig editor:
+# En jupytext pythonfil ser typisk ut som dette i en vanlig editor:
 # ```
 # # ---
 # # jupyter:
 # #   jupytext:
 # #     text_representation:
 # #       extension: .py
-# #       format_name: light
-# #       format_version: '1.5'
+# #       format_name: percent
+# #       format_version: '1.3'
 # # ---
 #
 # # %% [markdown]
@@ -45,7 +51,10 @@
 # ```
 
 # %% [markdown]
-# ## Konvertere filer fra .ipynb til .py
+# ## Konvertering av eksistrende .ipynb filer til jupytext .py
+# Sørg for at oppsettet ovenfor er konfigurert i repoets `pyproject.toml` før du
+# konverterer filer.
+#
 # Hvis du har Jypyter notebook filer i .ipynb-format og som du vil konvertere til
 # .py-format for bruk med jupytext, kjører du følgende kommando:
 # ```shell
@@ -55,9 +64,19 @@
 #
 # Eller hvis du vil konvertere motsatt vei, så kjører du denne kommandoen:
 # ```shell
-# # convert .py file to notebook.ipynb
+# # convert notebook.py file to notebook.ipynb
 # jupytext --to notebook notebook.py
 # ```
+
+# %% [markdown]
+# ## Opprette nye filer jupytext .py filer
+# Dessverre er standardformatet for jupytetxt på Dapla light-formatet, og ikke
+# percent-formatet. Derfor får man ikke percent-format hvis man åpner en .py-fil
+# direkte med Open With &rarr; Notebook.
+#
+# Opprett og lagre i stedet en notebook på vanlig måte, og så kjører du
+# konverteringskommandoen ovenfor for å konvertere den til .py-fil.
+# Legg inn .py-fila i git og slett tilhørende .ipynb-fil.
 
 # %% [markdown]
 # ## Eksempel på kodeceller
