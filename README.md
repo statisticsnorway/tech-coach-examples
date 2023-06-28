@@ -7,3 +7,6 @@ for utvikling på Dapla.
 - _jupyter:_ Katalog for jupyter notebooks eksempler
   - _modin.ipynb:_ Viser bruk av [Modin](https://modin.readthedocs.io/en/stable/)
     som erstatning for Pandas for å komme rundt minnegrense på Pandas.
+  - _jupytext_ipynb.py:_ Viser bruk og oppsett av
+    [jupytext](https://github.com/mwouts/jupytext#readme)
+    for å lagre Jupyter notebooks som rene python-filer.
