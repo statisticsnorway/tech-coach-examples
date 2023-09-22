@@ -30,6 +30,7 @@ import dapla as dp
 import pandas as pd
 import papermill as pm
 
+
 # %%
 bucket = "gs://ssb-prod-tech-coach-data-produkt"
 inndata_file = "ufo/inndata/valuta_p2020_p2023-09-21_v1.parquet"
@@ -58,5 +59,5 @@ result = pm.execute_notebook(
     parameters=dict(in_path=process_step1_path, out_path=klargjort_path),
 )
 
-# %% tags=[]
+# %%
 print("Finished")
