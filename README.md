@@ -10,3 +10,6 @@ for utvikling på Dapla.
   - _jupytext_ipynb.py:_ Viser bruk og oppsett av
     [jupytext](https://github.com/mwouts/jupytext#readme)
     for å lagre Jupyter notebooks som rene python-filer.
+- _automation:_ Katalog relatert til å kjøre mange ting i sekvens, dvs. autmatisering.
+  - _papermill:_ Viser bruk og oppsett av
+    [papermill](https://papermill.readthedocs.io/en/latest/)
