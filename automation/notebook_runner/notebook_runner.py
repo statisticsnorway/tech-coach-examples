@@ -18,18 +18,19 @@ notebook_files = [
     # Add more notebooks in the desired order
 ]
 
+# Create an execution preprocessor
+ep = ExecutePreprocessor(timeout=600, kernel_name="python3")  # Adjust timeout as needed
+path = root / "automation/notebook_runner/notebooks"
+
 # Loop through and execute each notebook
 for notebook_file in notebook_files:
     with open(notebook_file) as f:
+        print(f"Start running file {notebook_file}")
         notebook = nbformat.read(f, as_version=4)
-
-    # Create an execution preprocessor
-    ep = ExecutePreprocessor(
-        timeout=600, kernel_name="python3"
-    )  # Adjust timeout as needed
-
-    # Execute the notebook
-    ep.preprocess(notebook, {"metadata": {"path": "./"}})  # Set the path accordingly
+        # Execute the notebook
+        ep.preprocess(
+            notebook, {"metadata": {"path": f"{str(path)}"}}
+        )  # Set the path accordingly
 
     # Save the executed notebook
     with open(notebook_file, "w", encoding="utf-8") as f:
