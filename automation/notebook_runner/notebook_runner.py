@@ -24,14 +24,15 @@ path = root / "automation/notebook_runner/notebooks"
 
 # Loop through and execute each notebook
 for notebook_file in notebook_files:
-    with open(notebook_file) as f:
+    with notebook_file.open() as f:
         print(f"Start running file {notebook_file}")
         notebook = nbformat.read(f, as_version=4)
         # Execute the notebook
         ep.preprocess(
-            notebook, {"metadata": {"path": f"{str(path)}"}}
+            notebook,
+            {"metadata": {"path": f"{path!s}"}},
         )  # Set the path accordingly
 
     # Save the executed notebook
-    with open(notebook_file, "w", encoding="utf-8") as f:
+    with notebook_file.open("w", encoding="utf-8") as f:
         nbformat.write(notebook, f)

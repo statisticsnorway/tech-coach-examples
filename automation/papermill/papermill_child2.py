@@ -31,7 +31,7 @@ df
 
 # %%
 # Calculate mean per month for each currency
-df2 = df.pivot(index="TIME_PERIOD", columns="BASE_CUR")
+df2 = df.pivot_table(index="TIME_PERIOD", columns="BASE_CUR")
 df3 = df2.groupby(pd.Grouper(freq="M")).mean()
 df3
 

@@ -26,8 +26,6 @@
 # ## Code
 
 # %%
-import dapla as dp
-import pandas as pd
 import papermill as pm
 
 
