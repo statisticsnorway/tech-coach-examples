@@ -10,6 +10,8 @@ python = ">=3.10,<3.13"
 modin = {extras = ["ray"], version = ">=0.22.2"}
 papermill = ">=2.4.0"
 dapla-toolbelt = ">=1.8.2"
+pandas = {extras = ["gcp", "performance"], version = ">=2.0.2"}
+duckdb = ">=0.9.1"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d", "jupyter"], version = "^23.3.0"}
@@ -22,13 +24,7 @@ pre-commit = ">=3.3.1"
 pre-commit-hooks = ">=4.4.0"
 pytest = ">=7.3.1"
 ipywidgets = ">=8.1.1"
-
-# Uncomment this section when working in the production zone
-# [[tool.poetry.source]]
-# name = "nexus"
-# url = "http://pl-nexuspro-p.ssb.no:8081/repository/pypi-proxy/simple"
-# default = true
-# secondary = false
+ruff = ">=0.1.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -46,3 +42,51 @@ treat_comments_as_code = ["# %%"]
 formats = "ipynb,auto:percent"
 notebook_metadata_filter = "jupytext.text_representation,-jupytext.text_representation.jupytext_version,-widgets,-varInspector"
 cell_metadata_filter = "-papermill,tags"
+
+[tool.ruff]
+force-exclude = true  # Apply excludes to pre-commit
+show-fixes = true
+# src = ["src", "tests"]
+target-version = "py39"  # Minimum Python version supported
+
+# Ruff rules may be customized as desired: https://docs.astral.sh/ruff/rules/
+select = ["ALL"]
+ignore = [
+    "ANN101", # Supress missing-type-self.
+    "D100",   # Supress undocumented-public-module. Only doc of public api required.
+    "E402",   # Supress module-import-not-at-top-of-file, needed in jupyter notebooks.
+    "E501",   # Supress line-too-long warnings: trust black's judgement on this one.
+    "I001",   # Don't use ruff to sort imports because of jupytext files.
+    "T201",   # Allow print statements.
+    "ERA001", # Allow commented-out code, needed for jupytext.
+    "INP001", # Don't require __init__.py file.
+    "PD901",  # Allow df as variable name.
+    "B018",   # Like T201, allow expressions printing variables in notebooks.
+    "C408",   # Allow unnecessary collection call since can be more readable.
+]
+include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
+extend-exclude = [
+    "__pycache__",
+    "old",
+    ".ipynb_checkpoints",
+    "noxfile.py",
+    "docs/conf.py",
+]
+
+[tool.ruff.mccabe]
+max-complexity = 15
+
+[tool.ruff.pydocstyle]
+convention = "google"  # You can also use "numpy".
+
+[tool.ruff.per-file-ignores]
+"*/__init__.py" = ["F401"]
+"**/tests/*" = [
+    # asserts are encouraged in pytest
+    "S101",
+    # return annotations don't add value for test functions
+    "ANN201",
+    # docstrings are overkill for test functions
+    "D103",
+    "D100",
+]

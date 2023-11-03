@@ -82,7 +82,6 @@
 # ## Eksempel på kodeceller
 
 # %%
-import os
 
 
 print("Hello world")

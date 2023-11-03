@@ -22,7 +22,6 @@ print(f"{out_path=}")
 
 # %%
 import dapla as dp
-import pandas as pd
 
 
 # %%
