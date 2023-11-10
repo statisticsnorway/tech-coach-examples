@@ -50,7 +50,18 @@ show-fixes = true
 target-version = "py39"  # Minimum Python version supported
 
 # Ruff rules may be customized as desired: https://docs.astral.sh/ruff/rules/
-select = ["ALL"]
+select = [
+    "A",    # prevent using keywords that clobber python builtins
+    "B",    # bugbear: security warnings
+    "D",    # pydocstyle
+    "E",    # pycodestyle
+    "F",    # pyflakes
+    "ISC",  # implicit string concatenation
+    "UP",   # alert you when better syntax is available in your python version
+    "RUF",  # the ruff developer's own rules
+    "S",    # Bandit security testing
+]
+
 ignore = [
     "ANN101", # Supress missing-type-self.
     "D100",   # Supress undocumented-public-module. Only doc of public api required.

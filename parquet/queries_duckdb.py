@@ -1,23 +1,29 @@
+"""Example showing how to query parquet files using duckdb."""
 from pathlib import Path
 
+import dataset
 import duckdb
-import pandas as pd
 
 
 conn = duckdb.connect()
 
 
-def create_table(name: str) -> None:
+def create_table(name):
+    """Create a duckdb table from a parquet file.
+
+    Args:
+        name: Name of the file without the .parquet suffix
+    """
     data_dir = Path(__file__).parent / "dataset"
     file_path = str(data_dir / f"{name}.parquet")
-    conn.execute(
-        f"""CREATE OR REPLACE TABLE {name} AS
-            SELECT * FROM '{file_path}'
-        """,
+    query = (
+        f"CREATE OR REPLACE TABLE {name} AS SELECT * FROM '{file_path}'"  # noqa: S608
     )
+    conn.execute(query)
 
 
 def create_tables():
+    """Create all example tables."""
     create_table("customers")
     create_table("orders")
     create_table("products")
@@ -25,9 +31,15 @@ def create_tables():
     create_table("categories")
 
 
-def get_customer_orders(customer: str) -> pd.DataFrame:
-    create_tables()
+def get_customer_orders(customer):
+    """Get the orders for a given customer.
 
+    Args:
+        customer: The customer to return orders for.
+
+    Returns:
+        A dataframe with the products ordered by the customer.
+    """
     query_str = f"""SELECT
         c.FirstName,
         p.ProductName
@@ -42,5 +54,10 @@ def get_customer_orders(customer: str) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    result = get_customer_orders("Alice")
+    dataset.create_parquet_dataset()
+    create_tables()
+
+    customer_name = "Alice"
+    print(f"Getting the products ordered by {customer_name}:")
+    result = get_customer_orders(customer_name)
     print(result)
