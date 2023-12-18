@@ -5,6 +5,10 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
+#   kernelspec:
+#     display_name: tech-coach-examples
+#     language: python
+#     name: tech-coach-examples
 # ---
 
 # %% [markdown]
@@ -22,7 +26,7 @@
 # %% [markdown]
 # ## Oppsett
 # Det anbefales å konfigurere jupytext slik som det gjort i fila [pyproject.toml] i
-# dette repoet, linje 34-45. Der bruker man prosent-formatet, noe som gir god støtte
+# dette repoet, linje 41-44. Der bruker man prosent-formatet, noe som gir god støtte
 # i VSCode, PyCharm og andre editorer. Oppsettet stripper også bort unødvendige metadata,
 # slik at man slipper unødvendige oppdateringer og potensielle mergekonflikter. Oppsettet
 # sørger også for at verktøyet [isort] virker riktig med filene.
@@ -51,7 +55,17 @@
 # ```
 
 # %% [markdown]
-# ## Konvertering av eksistrende .ipynb filer til jupytext .py
+# ## Bruk av JupyterLab til å konvertere eksistrende .ipynb filer til jupytext .py
+# Sørg for at oppsettet ovenfor er konfigurert i repoets `pyproject.toml` før du
+# konverterer filer.
+#
+# Åpne hver .ipynb-fil på vanlig måte og lagre den på nytt.
+# Da vil det i tillegg til .ipynb-filen bli opprettet en .py-fil med samme navn.
+# Det er .py-filen som skal legges inn i git.
+# Alle endringer du gjør i ipynb-filen blir automatisk speilet til py-filen, og motsatt.
+
+# %% [markdown]
+# ## Manuell konvertering av eksistrende .ipynb filer til jupytext .py
 # Sørg for at oppsettet ovenfor er konfigurert i repoets `pyproject.toml` før du
 # konverterer filer.
 #
@@ -70,21 +84,17 @@
 
 # %% [markdown]
 # ## Opprette nye filer jupytext .py filer
-# Dessverre er standardformatet for jupytetxt på Dapla light-formatet, og ikke
-# percent-formatet. Derfor får man ikke percent-format hvis man åpner en .py-fil
-# direkte med Open With &rarr; Notebook.
+# Pass på at [pyproject.toml] inneholder  konfigurasjonen beskrevet ovenfor.
+# Opprett en ny fil ved å åpne en ny notebook (File &rarr; New notebook) på vanlig måte.
+# Da vil det i tillegg til .ipynb-filen bli opprettet en .py-fil med samme navn.
+# Det er .py-filen som skal legges inn i git.
 #
-# Opprett og lagre i stedet en notebook på vanlig måte, og så kjører du
-# konverteringskommandoen ovenfor for å konvertere den til .py-fil.
-# Legg inn .py-fila i git og slett tilhørende .ipynb-fil.
+# Alle endringer du gjør i ipynb-filen blir automatisk speilet til py-filen, og motsatt.
+#
+# [pyproject.toml]: https://github.com/statisticsnorway/tech-coach-examples/blob/main/pyproject.toml
 
 # %% [markdown]
 # ## Eksempel på kodeceller
 
 # %%
-
-
 print("Hello world")
-
-# %%
-print("New Cell")
