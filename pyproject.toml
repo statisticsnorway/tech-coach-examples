@@ -7,14 +7,13 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
-modin = {extras = ["ray"], version = ">=0.22.2"}
 papermill = ">=2.4.0"
 dapla-toolbelt = ">=1.8.2"
 pandas = {extras = ["gcp", "performance"], version = ">=2.0.2"}
 duckdb = ">=0.9.1"
 
 [tool.poetry.group.dev.dependencies]
-black = {extras = ["d", "jupyter"], version = "^23.3.0"}
+black = {extras = ["d", "jupyter"], version = ">=23.3.0"}
 ipykernel = ">=6.22.0"
 isort = ">=5.12.0"
 jupyterlab = ">=3.6.3"
