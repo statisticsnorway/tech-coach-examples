@@ -11,6 +11,8 @@ papermill = ">=2.4.0"
 dapla-toolbelt = ">=1.8.2"
 pandas = {extras = ["gcp", "performance"], version = ">=2.0.2"}
 duckdb = ">=0.9.1"
+tomli = "^2.0.1"
+ssb-fagfunksjoner = "^0.1.0"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d", "jupyter"], version = ">=23.3.0"}
