@@ -84,3 +84,10 @@ This database structure enables statistical analysis related to customer orders,
 such as calculating total revenue, average order value, popular products, and sales
 by category. It can support queries and analysis to gain insights into customer
 behavior and product performance.
+
+## Location
+
+The dataset is stored as csv-files in the `parquet/dataset/`-directory in this
+repo. It is also stored as parquet-files in the bucket:
+`gs://ssb-prod-dapla-felles-data-delt/tech-coach/parquet-example/`
+in the GCP-project: `prod-dapla-felles`.
