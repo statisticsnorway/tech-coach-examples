@@ -1,4 +1,5 @@
 """Example showing how to query parquet files using pandas."""
+
 from pathlib import Path
 
 import dataset
