@@ -29,7 +29,7 @@ def create_files() -> None:
     polars_df.write_parquet(data_dir / "polars-def-index.parquet")
 
 
-def load_file(name: str) -> pq.ParquetFile:
+def load_file_pyarrow(name: str) -> pq.ParquetFile:
     """Read the given dataset from a parquet file.
 
     Args:
@@ -55,8 +55,12 @@ def print_metadata(parquet_file: pq.ParquetFile) -> None:
 
 if __name__ == "__main__":
     create_files()
-    print_metadata(load_file("pandas-def-index"))
-    print_metadata(load_file("pandas-with-index"))
-    print_metadata(load_file("pandas-no-index"))
-    print_metadata(load_file("pyarrow-def-index"))
-    print_metadata(load_file("polars-def-index"))
+    file_names = [
+        "pandas-def-index",
+        "pandas-with-index",
+        "pandas-no-index",
+        "pyarrow-def-index",
+        "polars-def-index",
+    ]
+    for file_name in file_names:
+        print_metadata(load_file_pyarrow(file_name))
