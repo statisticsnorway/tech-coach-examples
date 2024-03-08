@@ -12,18 +12,28 @@
 # ---
 
 # %%
-import duckdb
-from dapla import FileClient
 import dapla as dp
+import duckdb
+
 
 conn = duckdb.connect()
 
 # %%
-customers = "gs://ssb-prod-dapla-felles-data-delt/tech-coach/parquet-example/customers.parquet"
-orders = "gs://ssb-prod-dapla-felles-data-delt/tech-coach/parquet-example/orders.parquet"
-products = "gs://ssb-prod-dapla-felles-data-delt/tech-coach/parquet-example/products.parquet"
-details = "gs://ssb-prod-dapla-felles-data-delt/tech-coach/parquet-example/details.parquet"
-categories = "gs://ssb-prod-dapla-felles-data-delt/tech-coach/parquet-example/categories.parquet"
+customers = (
+    "gs://ssb-prod-dapla-felles-data-delt/tech-coach/parquet-example/customers.parquet"
+)
+orders = (
+    "gs://ssb-prod-dapla-felles-data-delt/tech-coach/parquet-example/orders.parquet"
+)
+products = (
+    "gs://ssb-prod-dapla-felles-data-delt/tech-coach/parquet-example/products.parquet"
+)
+details = (
+    "gs://ssb-prod-dapla-felles-data-delt/tech-coach/parquet-example/details.parquet"
+)
+categories = (
+    "gs://ssb-prod-dapla-felles-data-delt/tech-coach/parquet-example/categories.parquet"
+)
 
 # %%
 df_customers = dp.read_pandas(customers)
@@ -55,7 +65,6 @@ def get_customer_orders(customer):
     """
 
     return conn.execute(query_str).df()
-
 
 
 # %%
