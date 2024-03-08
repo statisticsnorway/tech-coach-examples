@@ -41,6 +41,18 @@ def load_file_pyarrow(name: str) -> pq.ParquetFile:
     return pq.ParquetFile(file_path)
 
 
+def load_file_polars(name: str) -> pl.DataFrame:
+    """Read the given dataset from a parquet file.
+
+    Args:
+        name: Name of the file without the .parquet suffix
+    """
+    data_dir = Path(__file__).parent / "dataset"
+    file_path = data_dir / f"{name}.parquet"
+    print(f"Loading file: {file_path.name}")
+    return pl.read_parquet(file_path)
+
+
 def print_metadata(parquet_file: pq.ParquetFile) -> None:
     """Print metadata and schema for a given parquet file."""
     print(parquet_file.schema)
@@ -64,3 +76,8 @@ if __name__ == "__main__":
     ]
     for file_name in file_names:
         print_metadata(load_file_pyarrow(file_name))
+
+    # Try to read all files with polars. Some have reported problems
+    # with pandas index columns.
+    for file_name in file_names:
+        load_file_polars(file_name)
