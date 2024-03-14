@@ -28,6 +28,20 @@ def create_files() -> None:
     polars_df = pl.read_csv(csv_file)
     polars_df.write_parquet(data_dir / "polars-def-index.parquet")
 
+    # Pandas dataframe with monthly PeriodIndex from January 2020 to December 2020
+    monthly_period_index = pd.period_range(start="2020-01", end="2020-12", freq="M")
+    temp_oslo = [-1.6, -2.2, 1.8, 5.7, 11.4, 15.8, 16.4, 16.0, 11.3, 6.3, 0.5, -1.3]
+    pandas_df_p = pd.DataFrame(
+        data={"Average Temperature (°C)": temp_oslo}, index=monthly_period_index
+    )
+    pandas_df_p.to_parquet(data_dir / "pandas-period-index.parquet")
+
+    # Pandas with categorical data
+    pandas_df_cat = pd.DataFrame(
+        {"A": list("abca"), "B": list("bccd")}, dtype="category"
+    )
+    pandas_df_cat.to_parquet(data_dir / "pandas-categorical-data.parquet")
+
 
 def load_file_pyarrow(name: str) -> pq.ParquetFile:
     """Read the given dataset from a parquet file.
@@ -73,6 +87,8 @@ if __name__ == "__main__":
         "pandas-no-index",
         "pyarrow-def-index",
         "polars-def-index",
+        "pandas-categorical-data",
+        "pandas-period-index",
     ]
     for file_name in file_names:
         print_metadata(load_file_pyarrow(file_name))
