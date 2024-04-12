@@ -35,7 +35,27 @@
 # vinner er at parametrene er statiske, slik at ikke trenger å distribuere noe i teamet
 # når hemmelightene oppdateres.
 #
+# For å hente ut en hemmelighet fra Google Secret Manager så trenger man GCP projekt ID
+# og en secret_id, navnet på hemmeligheten, man skal hente.
+#
+# Per nå er GCP projekt ID definert til å håndteres som en hemmelighet, det vil si leses
+# inn fra .env-fil. Man NAV behandler den ikke som hemmelig, så det er mulig at det blir
+# en endring på det.
+#
+# Secret_id kan være sensitiv hvis man navngir den med et beskrivende navn, for eksempel
+# DB_MASTER_PASSWORD, men trenger ikke være det hvis man navngir den mer anonymt,
+# for eksempel SECRET1. Så i en del tilfeller kan secret_id også måtte leses fra .env-fil.
+#
 # ## Kodeeksempler
+#
+# For å kunne kjøre kodeeksemplet så må du ha en `.env`-fil i rotkatalogen på repoet
+# hvor miljøvariabelen GCP_PROJECT_ID settes til id'en til et GCP-prosjekt hvor
+# Google Secret Manager API'et er enablet. API'et skal enables for alle Dapla-team
+# etterhvert, men du kan sende en e-post til kundeservice og be om det hvis du trenger
+# det før den tid.
+#
+# Koden nedenfor tar utgangspunkt i et GCP-prosjekt hvor Google Secret Manager er
+# enablet.
 
 
 # %%
@@ -50,35 +70,11 @@ from google.cloud.secretmanager_v1.types import Replication, Secret
 
 # %%
 load_dotenv()  # Laster inn .env fil og setter miljøvariable
-project_id = os.getenv("TECH_COACH_DEV_GCP_PROJECT_ID")
+project_id = os.getenv("GCP_PROJECT_ID")
 print(project_id)
 
 # %% [markdown]
-# ## Bruk av Google Secret Manager
-# Google Secret Manager er per nå ikke tilgjengelig for standard Dapla-team. Behovet for
-# en god måte å håndtere og distribuere hemmeligheter på er meldt til produkteier Dapla,
-# og enten blir det en tjeneste på Dapla eller som minimum at blir en feature som kan
-# enables.
-#
-# Koden nedenfor tar utgangspunkt i et GCP-prosjekt hvor Google Secret Manager er enablet.
-#
-# ### Verdt å tenke på
-#
-# For å hente ut en hemmelighet fra Google Secret Manager så trenger man GCP projekt ID
-# og en secret_id, navnet på hemmeligheten, man skal hente.
-#
-# Per nå er GCP projekt ID definert til å håndteres som en hemmelighet, det vil si leses
-# inn fra .env-fil. Man NAV behandler den ikke som hemmelig, så det er mulig at det blir
-# en endring på det.
-#
-# Secret_id kan være sensitiv hvis man navngir den med et beskrivende navn, for eksempel
-# SSB_ORACLE_MASTER_PASSWORD, men trenger ikke være det hvis man navngir den mer anonymt,
-# for eksempel SECRET1. Så i en del tilfeller kan secret_id også måtte leses fra .env-fil.
-#
-# Så det man vinner på å bruke Google Secret Manager er først og fremst at man slipper
-# å distribuere endringer. Dette siden secret_id og GCP prosjekt id er statiske.
-#
-# ### Opprett hemmelighet
+# ### Opprett eller oppdater hemmelighet
 
 # %%
 # ID of the secret to create.
@@ -88,6 +84,7 @@ base_name = f"projects/{project_id}"
 secret_name = f"{base_name}/secrets/{secret_id}"
 version_name = f"{secret_name}/versions/latest"
 
+# %%
 # Create the Secret Manager client.
 credentials = AuthClient.fetch_google_credentials()
 client = secretmanager.SecretManagerServiceClient(credentials=credentials)
@@ -101,6 +98,7 @@ replication_policy = Replication(
 try:
     # Attempt to access the secret
     secret = client.access_secret_version(request={"name": version_name})
+    # List existing versions of the secret, if it exist
     versions = client.list_secret_versions(request={"parent": secret_name})
     for version in versions:
         print(f"Version: {version.name}, State: {version.state.name}")
