@@ -5,8 +5,13 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
+#   kernelspec:
+#     display_name: tech-coach-examples
+#     language: python
+#     name: tech-coach-examples
 # ---
 
+# %%
 # This file is a Jupyter Notebook stored in plain text format as a .py file.
 # Open as notebook in Jupyter by right-clicking the file and select
 # Open With -> Notebook.
@@ -36,24 +41,12 @@
 # %%
 import os
 
-import dapla as dp
 from dapla import AuthClient
 from dotenv import load_dotenv
 from google.api_core.exceptions import NotFound
 from google.cloud import secretmanager
 from google.cloud.secretmanager_v1.types import Replication, Secret
 
-
-# %%
-def download_env_file_from_bucket(gcs_path):
-    """Download .env-file from bucket to root directory in repo"""
-    dest_path = dp.repo_root_dir() / ".env"
-    with dp.FileClient.gcs_open(gcs_path, "rb") as src, open(dest_path, "wb") as dst:
-        dst.write(src.read())
-
-
-# %%
-download_env_file_from_bucket("gs://ssb-tech-coach-data-produkt-prod/temp/.env")
 
 # %%
 load_dotenv()  # Laster inn .env fil og setter miljøvariable
@@ -108,10 +101,10 @@ replication_policy = Replication(
 try:
     # Attempt to access the secret
     secret = client.access_secret_version(request={"name": version_name})
-    print(f"Secret {secret_id} already exist, create a new version of the secret.")
     versions = client.list_secret_versions(request={"parent": secret_name})
     for version in versions:
         print(f"Version: {version.name}, State: {version.state.name}")
+    print(f"Secret {secret_id} already exist, create a new version of the secret.")
 except NotFound:
     # If not found, create a new secret
     secret = client.create_secret(
