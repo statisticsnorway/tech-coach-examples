@@ -14,6 +14,8 @@ duckdb = ">=0.9.1"
 polars = "^0.20.14"
 python-dotenv = "^1.0.1"
 google-cloud-secret-manager = "^2.19.0"
+cryptography = "^42.0.5"
+tomli = "^2.0.1"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d", "jupyter"], version = ">=23.3.0"}
