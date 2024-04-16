@@ -12,6 +12,8 @@ for utvikling på Dapla.
   - _papermill:_ Viser bruk og oppsett av [papermill].
 - _parquet:_ Eksempler som viser bruk av [parquet-filer], både fra pandas og fra
   duckdb. Se egen [README-fil](./parquet/README.md) for dette.
+- _secret:_ Eksempler som viser håndtering av hemmeligheter og kryptering
+  av filer.
 
 [jupytext]: https://github.com/mwouts/jupytext#readme
 [papermill]: https://papermill.readthedocs.io/en/latest/
