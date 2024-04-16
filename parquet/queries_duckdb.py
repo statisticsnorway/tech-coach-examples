@@ -17,9 +17,7 @@ def create_table(name):
     """
     data_dir = Path(__file__).parent / "dataset"
     file_path = str(data_dir / f"{name}.parquet")
-    query = (
-        f"CREATE OR REPLACE TABLE {name} AS SELECT * FROM '{file_path}'"  # noqa: S608
-    )
+    query = f"CREATE OR REPLACE TABLE {name} AS SELECT * FROM '{file_path}'"
     conn.execute(query)
 
 
