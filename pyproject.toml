@@ -11,11 +11,12 @@ papermill = ">=2.4.0"
 dapla-toolbelt = ">=1.8.2"
 pandas = {extras = ["gcp", "performance"], version = ">=2.0.2"}
 duckdb = ">=0.9.1"
-polars = "^0.20.14"
-python-dotenv = "^1.0.1"
-google-cloud-secret-manager = "^2.19.0"
-cryptography = "^42.0.5"
-tomli = "^2.0.1"
+tomli = ">=2.0.1"
+ssb-fagfunksjoner = ">=0.1.0"
+polars = ">=0.20.14"
+python-dotenv = ">=1.0.1"
+google-cloud-secret-manager = ">=2.19.0"
+cryptography = ">=42.0.5"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d", "jupyter"], version = ">=23.3.0"}
@@ -86,6 +87,9 @@ ignore = [
     "PD901",  # Allow df as variable name.
     "B018",   # Like T201, allow expressions printing variables in notebooks.
     "C408",   # Allow unnecessary collection call since can be more readable.
+    "D101",   # Don't require docstring.
+    "D102",   # Don't require docstring.
+    "D107",   # Don't require docstring.
 ]
 
 [tool.ruff.lint.mccabe]
