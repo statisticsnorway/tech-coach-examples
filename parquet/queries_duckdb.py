@@ -1,4 +1,5 @@
 """Example showing how to query parquet files using duckdb."""
+
 from pathlib import Path
 
 import dataset

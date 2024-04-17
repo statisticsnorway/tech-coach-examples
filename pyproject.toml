@@ -87,6 +87,9 @@ ignore = [
     "PD901",  # Allow df as variable name.
     "B018",   # Like T201, allow expressions printing variables in notebooks.
     "C408",   # Allow unnecessary collection call since can be more readable.
+    "D101",   # Don't require docstring.
+    "D102",   # Don't require docstring.
+    "D107",   # Don't require docstring.
 ]
 
 [tool.ruff.lint.mccabe]

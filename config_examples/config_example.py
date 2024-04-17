@@ -14,6 +14,7 @@
 # %%
 from fagfunksjoner.paths.project_root import ProjectRoot
 
+
 with ProjectRoot():
     from config_examples.ConfigReader import ConfigReader
 
@@ -24,5 +25,5 @@ print(config.config["paths"]["inndata_dir"])
 
 
 # %%
-sti = config.klargjort_dir()
-print(sti)
+directory = config.klargjort_dir()
+print(directory)

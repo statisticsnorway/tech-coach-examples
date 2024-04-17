@@ -54,11 +54,11 @@ Eksempelet vårt viser hvordan en .toml konfig-fil kan brukes på DAPLA
     └── README.md
 ```
 
-`config`-katalogen inneholder en .toml-fil med konfigurasjonsvariabler.  
+`config`-katalogen inneholder en .toml-fil med konfigurasjonsvariabler.
 `config_examples`-katalogen inneholder python filer for å behandle konfigurasjonsdataene fra .toml filen
 
-`config.toml` inneholder konfigurasjonsvariabler brukt i dette eksempelet  
-`config_examples.py` leser konfigurasjonvariabler fra `config.toml` via `ConfigReader` og viser hvordan disse variablene kan nåes og benyttes med python.  
+`config.toml` inneholder konfigurasjonsvariabler brukt i dette eksempelet
+`config_examples.py` leser konfigurasjonvariabler fra `config.toml` via `ConfigReader` og viser hvordan disse variablene kan nåes og benyttes med python.
 `ConfigReader.md` definerer en klasse, kalt `ConfigReader`, som brukes til å lese konfigurasjonsfiler i TOML-format og gjør innholdet tilgjengelig via objektattributtet `self.config`.
 
 `README.md`: Denne filen.
