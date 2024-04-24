@@ -1,5 +1,6 @@
 from math import sqrt
 
+import numpy as np
 import pandas as pd
 
 
@@ -22,12 +23,38 @@ def is_prime(number: int) -> bool:
     return True
 
 
-# Function from fagfunksjoner.data.pandas_combinations
-def flatten_col_multiindex(df: pd.DataFrame, sep="_") -> pd.DataFrame:
-    """If the dataframe has a multiindex as a column.
+# Copied from stat-finansregnskapet/Inndata/UT_dapla/UT11_Valutaomvurderinger.py
+def valuta_omv(inndata: pd.DataFrame, val_data: pd.DataFrame) -> pd.DataFrame:
+    koblet = pd.merge(
+        inndata,
+        val_data[["valuta", "periode", "obs_value", "obs_value_last"]],
+        on=["valuta", "periode"],
+        how="left",
+    )
 
-    Flattens it by combining the names of the multiindex, using the seperator (sep).
-    """
-    if isinstance(df.columns, pd.MultiIndex):
-        df.columns = [sep.join(col).strip().strip(sep) for col in df.columns.values]
-    return df
+    # Denne må tilpasses, siden altinn skal ha andre nivåer enn filrapp (objekt, sektor)
+    gruppert = koblet.groupby(["rapp_orgnr", "post", "und_post", "objekt", "valuta"])
+
+    val_omv = []
+
+    for name, group in gruppert:
+        sortert = group.sort_values("periode")
+        sortert["beh_endr"] = sortert["verdi_lf"].transform(lambda x: x - x.shift())
+        sortert["beh_val"] = sortert["verdi_lf"] / sortert["obs_value_last"]
+        sortert["beh_endr_val"] = sortert["beh_val"].transform(lambda x: x - x.shift())
+        sortert["val_beh_trans_nok"] = sortert["beh_endr_val"] * sortert["obs_value"]
+        # Omvurderinger settes til 0 hvis beholdningsendring er 0
+        sortert["restbest_omv"] = np.where(
+            sortert["beh_endr"] != 0,
+            sortert["beh_endr"] - sortert["val_beh_trans_nok"],
+            0,
+        )
+        val_omv.append(sortert)
+
+    # Endre return hvis vi bare vil ha ut en summering av omvurderingene
+    # Hvis det ikke er data returneres et tomt datasett
+    try:
+        return pd.concat(val_omv)
+    except:
+        print("WARNING! Empty DataFrame returned")
+        return koblet

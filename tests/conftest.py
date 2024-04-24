@@ -1,25 +1,22 @@
+from pathlib import Path
+
+# Store testdata for the valuta_omv function
 import pandas as pd
 import pytest
 
 
 @pytest.fixture
-def multiindex() -> pd.DataFrame:
-    # Define the multi-level index
-    multi_index = pd.MultiIndex.from_tuples(
-        [
-            ("New York", "Store A"),
-            ("New York", "Store B"),
-            ("Los Angeles", "Store A"),
-            ("Los Angeles", "Store B"),
-            ("Chicago", "Store A"),
-            ("Chicago", "Store B"),
-        ],
-        names=["City", "Store"],
+def inndata() -> pd.DataFrame:
+    inndata_file = Path(__file__).parent / "testdata" / "valuta_omv_inndata.parquet"
+    inndata_df = pd.read_parquet(inndata_file)
+
+    return inndata_df
+
+
+@pytest.fixture
+def val_data() -> pd.DataFrame:
+    exchange_rates_file = (
+        Path(__file__).parent / "testdata" / "valuta_omv_exchange_rates.parquet"
     )
-    data = {
-        "Sales": [200, 240, 150, 300, 200, 100],
-        "Customers": [30, 45, 20, 50, 25, 15],
-    }
-    df = pd.DataFrame(data, index=multi_index)
-    df_reset = df.reset_index()
-    return df_reset
+    exchange_df = pd.read_parquet(exchange_rates_file)
+    return exchange_df
