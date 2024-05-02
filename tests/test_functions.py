@@ -20,8 +20,8 @@ def test_is_prime():
 
 
 def test_valuta_omv(inndata, val_data):
-    result_df = valuta_omv(inndata, val_data)
-
     facit_file = Path(__file__).parent / "testdata" / "valuta_omv_facit.parquet"
     facit_df = pd.read_parquet(facit_file)
+
+    result_df = valuta_omv(inndata, val_data)
     tm.assert_frame_equal(result_df, facit_df)

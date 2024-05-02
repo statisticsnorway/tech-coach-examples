@@ -25,6 +25,15 @@ def is_prime(number: int) -> bool:
 
 # Copied from stat-finansregnskapet/Inndata/UT_dapla/UT11_Valutaomvurderinger.py
 def valuta_omv(inndata: pd.DataFrame, val_data: pd.DataFrame) -> pd.DataFrame:
+    """Valuta omvurdering.
+
+    Args:
+        inndata: Dataframe with inndata
+        val_data: Dataframe with exchange rates
+
+    Returns:
+        A dataframe with reassessed values.
+    """
     koblet = pd.merge(
         inndata,
         val_data[["valuta", "periode", "obs_value", "obs_value_last"]],
@@ -37,7 +46,7 @@ def valuta_omv(inndata: pd.DataFrame, val_data: pd.DataFrame) -> pd.DataFrame:
 
     val_omv = []
 
-    for name, group in gruppert:
+    for _, group in gruppert:
         sortert = group.sort_values("periode")
         sortert["beh_endr"] = sortert["verdi_lf"].transform(lambda x: x - x.shift())
         sortert["beh_val"] = sortert["verdi_lf"] / sortert["obs_value_last"]
@@ -55,6 +64,6 @@ def valuta_omv(inndata: pd.DataFrame, val_data: pd.DataFrame) -> pd.DataFrame:
     # Hvis det ikke er data returneres et tomt datasett
     try:
         return pd.concat(val_omv)
-    except:
+    except ValueError:
         print("WARNING! Empty DataFrame returned")
         return koblet
