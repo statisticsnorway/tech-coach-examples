@@ -45,7 +45,7 @@ def replace_org_info(
     unique_org_numbers = df[org_number_column].unique()
     new_numbers = generate_unique_numbers(100000000, 999999999, len(unique_org_numbers))
 
-    number_mapping = dict(zip(unique_org_numbers, new_numbers))
+    number_mapping = dict(zip(unique_org_numbers, new_numbers, strict=False))
     df[org_number_column] = df[org_number_column].map(number_mapping)
 
     if org_name_column:
@@ -55,7 +55,7 @@ def replace_org_info(
         unique_org_names = df[org_name_column].unique()
         fake = Faker("no_NO")
         new_names = [fake.unique.company() for _ in range(len(unique_org_names))]
-        name_mapping = dict(zip(unique_org_names, new_names))
+        name_mapping = dict(zip(unique_org_names, new_names, strict=False))
         df[org_name_column] = df[org_name_column].map(name_mapping)
 
     return df
