@@ -37,14 +37,8 @@ print(f"{klargjort_path=}")
 
 # %%
 start_time = time.time()
-df = child1.read_data(inndata_path)
-df2 = child1.process_data(df)
-child1.write_data(df2, process_step1_path)
-
-# %%
-df3 = child2.read_data(process_step1_path)
-df4 = child2.process_data(df3)
-child2.write_data(df4, klargjort_path)
+child1.run_all(inndata_path, process_step1_path)
+child2.run_all(process_step1_path, klargjort_path)
 
 # %%
 execution_time = time.time() - start_time
