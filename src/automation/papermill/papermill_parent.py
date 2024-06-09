@@ -30,18 +30,18 @@ import papermill as pm
 
 
 # %%
-bucket = "gs://ssb-prod-tech-coach-data-produkt"
-inndata_file = "ufo/inndata/valuta_p2020_p2023-09-21_v1.parquet"
+bucket = "gs://ssb-prod-dapla-felles-data-delt"
+inndata_file = "tech-coach/automation/valuta_p2020_p2023-09-21_v1.parquet"
 inndata_path = f"{bucket}/{inndata_file}"
-print(inndata_path)
+print(f"{inndata_path=}")
 
-process_step1_file = "temp/process_step1.parquet"
+process_step1_file = "tech-coach/automation/process_step1.parquet"
 process_step1_path = f"{bucket}/{process_step1_file}"
-print(process_step1_path)
+print(f"{process_step1_path=}")
 
-klargjort_file = "ufo/klargjorte-data/valuta_monthly_p2022_v1.parquet"
+klargjort_file = "tech-coach/automation/valuta_monthly_p2022_v1.parquet"
 klargjort_path = f"{bucket}/{klargjort_file}"
-print(klargjort_path)
+print(f"{klargjort_path=}")
 
 # %%
 result = pm.execute_notebook(

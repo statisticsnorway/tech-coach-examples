@@ -26,12 +26,12 @@ import dapla as dp
 
 # %%
 df = dp.read_pandas(gcs_path=in_path)
-df
+df.head()
 
 # %%
 # Data minimizing, extract only the necessary columns.
 df2 = df[["BASE_CUR", "TIME_PERIOD", "OBS_VALUE"]]
-df2
+df2.head()
 
 # %%
 dp.write_pandas(df2, out_path)

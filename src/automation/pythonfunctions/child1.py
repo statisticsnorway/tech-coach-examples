@@ -49,7 +49,7 @@ def run_all(in_path, out_path):
 
 
 # %%
-if __name__ == "__main__" or "__file__" not in globals():
+if __name__ == "__main__":
     in_path = "gs://ssb-prod-dapla-felles-data-delt/tech-coach/automation/valuta_p2020_p2023-09-21_v1.parquet"
     out_path = "gs://ssb-prod-dapla-felles-data-delt/tech-coach/automation/process_step1.parquet"
     print(f"{in_path=}")
