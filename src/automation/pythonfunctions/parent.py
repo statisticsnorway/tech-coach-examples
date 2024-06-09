@@ -12,50 +12,37 @@
 # ---
 
 # %% [markdown]
-# # Papermill example
-# Papermill can be used to run multiple notebooks in sequence. This example uses
-# a parent file which runs the child files in sequence.
-#
-# ## Papermill and jupytext
-# Papermill works on `*.ipynb`-files. If you are using jupytext to store the notebooks
-# as plain `*.py`-files, and you don't have a corresponding paired `*.ipynb`-file, you
-# need to create the child ipynb-files first. Do that using this command:
-#
-# `poetry run jupytext papermill_child*.py --to ipynb`
+# # Running multiple notebooks without papermill
 #
 # ## Code
 
 # %%
-import papermill as pm
-
+import child1
+import child2
 
 # %%
-bucket = "gs://ssb-prod-tech-coach-data-produkt"
-inndata_file = "ufo/inndata/valuta_p2020_p2023-09-21_v1.parquet"
+bucket = "gs://ssb-prod-dapla-felles-data-delt"
+inndata_file = "tech-coach/automation/valuta_p2020_p2023-09-21_v1.parquet"
 inndata_path = f"{bucket}/{inndata_file}"
-print(inndata_path)
+print(f"{inndata_path=}")
 
-process_step1_file = "temp/process_step1.parquet"
+process_step1_file = "tech-coach/automation/process_step1.parquet"
 process_step1_path = f"{bucket}/{process_step1_file}"
-print(process_step1_path)
+print(f"{process_step1_path=}")
 
-klargjort_file = "ufo/klargjorte-data/valuta_monthly_p2022_v1.parquet"
+klargjort_file = "tech-coach/automation/valuta_monthly_p2022_v1.parquet"
 klargjort_path = f"{bucket}/{klargjort_file}"
-print(klargjort_path)
+print(f"{klargjort_path=}")
 
 # %%
-result = pm.execute_notebook(
-    "papermill_child1.ipynb",
-    "papermill_child1_output.ipynb",
-    parameters=dict(in_path=inndata_path, out_path=process_step1_path),
-)
+df = child1.read_data(inndata_path)
+df2 = child1.process_data(df)
+child1.write_data(df2, process_step1_path)
 
 # %%
-result = pm.execute_notebook(
-    "papermill_child2.ipynb",
-    "papermill_child2_output.ipynb",
-    parameters=dict(in_path=process_step1_path, out_path=klargjort_path),
-)
+df3 = child2.read_data(process_step1_path)
+df4 = child2.process_data(df3)
+child2.write_data(df4, klargjort_path)
 
 # %%
 print("Finished")
