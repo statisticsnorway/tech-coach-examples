@@ -27,6 +27,7 @@
 
 # %%
 import papermill as pm
+import time
 
 
 # %%
@@ -44,6 +45,7 @@ klargjort_path = f"{bucket}/{klargjort_file}"
 print(f"{klargjort_path=}")
 
 # %%
+start_time = time.time()
 result = pm.execute_notebook(
     "papermill_child1.ipynb",
     "papermill_child1_output.ipynb",
@@ -58,4 +60,5 @@ result = pm.execute_notebook(
 )
 
 # %%
-print("Finished")
+execution_time = time.time() - start_time
+print(f"Finished in {execution_time} seconds.")
