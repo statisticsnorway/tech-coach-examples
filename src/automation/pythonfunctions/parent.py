@@ -12,23 +12,15 @@
 # ---
 
 # %% [markdown]
-# # Papermill example
-# Papermill can be used to run multiple notebooks in sequence. This example uses
-# a parent file which runs the child files in sequence.
-#
-# ## Papermill and jupytext
-# Papermill works on `*.ipynb`-files. If you are using jupytext to store the notebooks
-# as plain `*.py`-files, and you don't have a corresponding paired `*.ipynb`-file, you
-# need to create the child ipynb-files first. Do that using this command:
-#
-# `poetry run jupytext papermill_child*.py --to ipynb`
+# # Running multiple notebooks without papermill
 #
 # ## Code
 
 # %%
 import time
 
-import papermill as pm
+import child1
+import child2
 
 
 # %%
@@ -47,18 +39,8 @@ print(f"{klargjort_path=}")
 
 # %%
 start_time = time.time()
-result = pm.execute_notebook(
-    "papermill_child1.ipynb",
-    "papermill_child1_output.ipynb",
-    parameters=dict(in_path=inndata_path, out_path=process_step1_path),
-)
-
-# %%
-result = pm.execute_notebook(
-    "papermill_child2.ipynb",
-    "papermill_child2_output.ipynb",
-    parameters=dict(in_path=process_step1_path, out_path=klargjort_path),
-)
+child1.run_all(inndata_path, process_step1_path)
+child2.run_all(process_step1_path, klargjort_path)
 
 # %%
 execution_time = time.time() - start_time
