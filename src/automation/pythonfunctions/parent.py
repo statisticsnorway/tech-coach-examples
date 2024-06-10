@@ -18,8 +18,10 @@
 
 # %%
 import time
+
 import child1
 import child2
+
 
 # %%
 bucket = "gs://ssb-prod-dapla-felles-data-delt"

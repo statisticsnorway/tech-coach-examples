@@ -26,8 +26,9 @@
 # ## Code
 
 # %%
-import papermill as pm
 import time
+
+import papermill as pm
 
 
 # %%

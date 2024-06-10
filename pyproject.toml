@@ -42,6 +42,7 @@ pythonpath = ["src"]
 profile = "black"
 force_single_line = true
 skip_gitignore = true
+lines_after_imports = 2
 # The line below is needed for jupyter notebooks stored as .py in percent format.
 # See https://github.com/PyCQA/isort/issues/1338 for details
 treat_comments_as_code = ["# %%"]

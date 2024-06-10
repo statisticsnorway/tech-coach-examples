@@ -13,7 +13,6 @@
 
 # %%
 import dapla as dp
-import pandas as pd
 from IPython.display import display
 
 
