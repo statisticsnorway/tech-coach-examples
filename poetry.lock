@@ -889,13 +889,13 @@ files = [
 
 [[package]]
 name = "dapla-toolbelt"
-version = "2.0.14"
+version = "2.0.16"
 description = "Dapla Toolbelt"
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "dapla_toolbelt-2.0.14-py3-none-any.whl", hash = "sha256:1826731196504fe8e0b05b9d3f149579da033af43624c51e456919ec90b9422b"},
-    {file = "dapla_toolbelt-2.0.14.tar.gz", hash = "sha256:4564b4fc54e1eae9a62937fdbb63e0070963debb35766aa61ab381a9aaf95987"},
+    {file = "dapla_toolbelt-2.0.16-py3-none-any.whl", hash = "sha256:3bc9b8c1c82081f2e1be9d731bbe32299245b65d296f00c77117136cea47491d"},
+    {file = "dapla_toolbelt-2.0.16.tar.gz", hash = "sha256:8342a9a1c7fd279678812c379ea4caca29355b11a005fa635b6e18b15c8cbdd1"},
 ]
 
 [package.dependencies]
@@ -1099,13 +1099,13 @@ tests = ["asttokens (>=2.1.0)", "coverage", "coverage-enable-subprocess", "ipyth
 
 [[package]]
 name = "faker"
-version = "24.14.1"
+version = "25.8.0"
 description = "Faker is a Python package that generates fake data for you."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "Faker-24.14.1-py3-none-any.whl", hash = "sha256:a5edba3aa17a1d689c8907e5b0cd1653079c2466a4807f083aa7b5f80a00225d"},
-    {file = "Faker-24.14.1.tar.gz", hash = "sha256:380a3697e696ae4fcf50a93a3d9e0286fab7dfbf05a9caa4421fa4727c6b1e89"},
+    {file = "Faker-25.8.0-py3-none-any.whl", hash = "sha256:4c40b34a9c569018d4f9d6366d71a4da8a883d5ddf2b23197be5370f29b7e1b6"},
+    {file = "Faker-25.8.0.tar.gz", hash = "sha256:bdec5f2fb057d244ebef6e0ed318fea4dcbdf32c3a1a010766fc45f5d68fc68d"},
 ]
 
 [package.dependencies]
@@ -1424,13 +1424,13 @@ grpc = ["grpcio (>=1.38.0,<2.0dev)", "grpcio-status (>=1.38.0,<2.0.dev0)"]
 
 [[package]]
 name = "google-cloud-pubsub"
-version = "2.21.2"
+version = "2.21.3"
 description = "Google Cloud Pub/Sub API client library"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "google-cloud-pubsub-2.21.2.tar.gz", hash = "sha256:fc72226b14731db2873f7c4031cc757e274bbcdabcac7523b2cd6e46130d6096"},
-    {file = "google_cloud_pubsub-2.21.2-py2.py3-none-any.whl", hash = "sha256:05a6b01e5bda6f4a4858700e3e9a12e3080589718d648b2383e5818131db9ce4"},
+    {file = "google-cloud-pubsub-2.21.3.tar.gz", hash = "sha256:df44c79a4d7bfb5adfa675413e3b91bbbe06e91d2715a15f925140b05715bb7d"},
+    {file = "google_cloud_pubsub-2.21.3-py2.py3-none-any.whl", hash = "sha256:a417d63d9db5e8b9ff51dee705c69ed02b0a8bc62cac2474a86f22aea288c0ec"},
 ]
 
 [package.dependencies]
@@ -1468,13 +1468,13 @@ protobuf = ">=3.19.5,<3.20.0 || >3.20.0,<3.20.1 || >3.20.1,<4.21.0 || >4.21.0,<4
 
 [[package]]
 name = "google-cloud-storage"
-version = "2.16.0"
+version = "2.17.0"
 description = "Google Cloud Storage API client library"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "google-cloud-storage-2.16.0.tar.gz", hash = "sha256:dda485fa503710a828d01246bd16ce9db0823dc51bbca742ce96a6817d58669f"},
-    {file = "google_cloud_storage-2.16.0-py2.py3-none-any.whl", hash = "sha256:91a06b96fb79cf9cdfb4e759f178ce11ea885c79938f89590344d079305f5852"},
+    {file = "google-cloud-storage-2.17.0.tar.gz", hash = "sha256:49378abff54ef656b52dca5ef0f2eba9aa83dc2b2c72c78714b03a1a95fe9388"},
+    {file = "google_cloud_storage-2.17.0-py2.py3-none-any.whl", hash = "sha256:5b393bc766b7a3bc6f5407b9e665b2450d36282614b7945e570b3480a456d1e1"},
 ]
 
 [package.dependencies]
@@ -1570,13 +1570,13 @@ testing = ["pytest"]
 
 [[package]]
 name = "google-resumable-media"
-version = "2.7.0"
+version = "2.7.1"
 description = "Utilities for Google Media Downloads and Resumable Uploads"
 optional = false
-python-versions = ">= 3.7"
+python-versions = ">=3.7"
 files = [
-    {file = "google-resumable-media-2.7.0.tar.gz", hash = "sha256:5f18f5fa9836f4b083162064a1c2c98c17239bfda9ca50ad970ccf905f3e625b"},
-    {file = "google_resumable_media-2.7.0-py2.py3-none-any.whl", hash = "sha256:79543cfe433b63fd81c0844b7803aba1bb8950b47bedf7d980c38fa123937e08"},
+    {file = "google-resumable-media-2.7.1.tar.gz", hash = "sha256:eae451a7b2e2cdbaaa0fd2eb00cc8a1ee5e95e16b55597359cbc3d27d7d90e33"},
+    {file = "google_resumable_media-2.7.1-py2.py3-none-any.whl", hash = "sha256:103ebc4ba331ab1bfdac0250f8033627a2cd7cde09e7ccff9181e31ba4315b2c"},
 ]
 
 [package.dependencies]
@@ -2026,12 +2026,13 @@ files = [
 
 [[package]]
 name = "jsonpointer"
-version = "2.4"
+version = "3.0.0"
 description = "Identify specific nodes in a JSON document (RFC 6901)"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*"
+python-versions = ">=3.7"
 files = [
-    {file = "jsonpointer-2.4-py2.py3-none-any.whl", hash = "sha256:15d51bba20eea3165644553647711d150376234112651b4f1811022aecad7d7a"},
+    {file = "jsonpointer-3.0.0-py2.py3-none-any.whl", hash = "sha256:13e088adc14fca8b6aa8177c044e12701e6ad4b28ff10e65f2267a90109c9942"},
+    {file = "jsonpointer-3.0.0.tar.gz", hash = "sha256:2b2d729f2091522d61c3b31f82e11870f60b68f43fbc705cb76bf4b832af59ef"},
 ]
 
 [[package]]
@@ -2291,13 +2292,13 @@ test = ["beautifulsoup4[html5lib]", "coverage", "cryptography", "jsonschema", "j
 
 [[package]]
 name = "jupyterlab"
-version = "4.2.1"
+version = "4.2.2"
 description = "JupyterLab computational environment"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "jupyterlab-4.2.1-py3-none-any.whl", hash = "sha256:6ac6e3827b3c890e6e549800e8a4f4aaea6a69321e2240007902aa7a0c56a8e4"},
-    {file = "jupyterlab-4.2.1.tar.gz", hash = "sha256:a10fb71085a6900820c62d43324005046402ffc8f0fde696103e37238a839507"},
+    {file = "jupyterlab-4.2.2-py3-none-any.whl", hash = "sha256:59ee9b839f43308c3dfd55d72d1f1a299ed42a7f91f2d1afe9c12a783f9e525f"},
+    {file = "jupyterlab-4.2.2.tar.gz", hash = "sha256:a534b6a25719a92a40d514fb133a9fe8f0d9981b0bbce5d8a5fcaa33344a3038"},
 ]
 
 [package.dependencies]
@@ -2311,6 +2312,7 @@ jupyter-server = ">=2.4.0,<3"
 jupyterlab-server = ">=2.27.1,<3"
 notebook-shim = ">=0.2"
 packaging = "*"
+setuptools = ">=40.1.0"
 tomli = {version = ">=1.2.2", markers = "python_version < \"3.11\""}
 tornado = ">=6.2.0"
 traitlets = "*"
@@ -3296,13 +3298,13 @@ xml = ["lxml (>=4.9.2)"]
 
 [[package]]
 name = "pandas-gbq"
-version = "0.23.0"
+version = "0.23.1"
 description = "Google BigQuery connector for pandas"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pandas-gbq-0.23.0.tar.gz", hash = "sha256:469b75a2adf6bfc8cd34d9eead9e67a05e0d313f194d702e2ce776f7e6a4c5ee"},
-    {file = "pandas_gbq-0.23.0-py2.py3-none-any.whl", hash = "sha256:7abed31890419360df08a2c7359228999ce9173ef788564c19d5bc29e6e1b720"},
+    {file = "pandas-gbq-0.23.1.tar.gz", hash = "sha256:6a4942b574643af1372360c807616a98b3f9ed9ca328794daa66d4f28af879be"},
+    {file = "pandas_gbq-0.23.1-py2.py3-none-any.whl", hash = "sha256:74165384b6718c75a08cf434fb78f076200aa25d32705c4634eaeedbc4286b6a"},
 ]
 
 [package.dependencies]
@@ -3527,13 +3529,13 @@ twisted = ["twisted"]
 
 [[package]]
 name = "prompt-toolkit"
-version = "3.0.46"
+version = "3.0.47"
 description = "Library for building powerful interactive command lines in Python"
 optional = false
 python-versions = ">=3.7.0"
 files = [
-    {file = "prompt_toolkit-3.0.46-py3-none-any.whl", hash = "sha256:45abe60a8300f3c618b23c16c4bb98c6fc80af8ce8b17c7ae92db48db3ee63c1"},
-    {file = "prompt_toolkit-3.0.46.tar.gz", hash = "sha256:869c50d682152336e23c4db7f74667639b5047494202ffe7670817053fd57795"},
+    {file = "prompt_toolkit-3.0.47-py3-none-any.whl", hash = "sha256:0d7bfa67001d5e39d02c224b663abc33687405033a8c422d0d675a5a13361d10"},
+    {file = "prompt_toolkit-3.0.47.tar.gz", hash = "sha256:1e1b29cb58080b1e69f207c893a1a7bf16d127a5c30c9d17a25a5d77792e5360"},
 ]
 
 [package.dependencies]
@@ -3912,13 +3914,13 @@ dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments
 
 [[package]]
 name = "pytest-cov"
-version = "4.1.0"
+version = "5.0.0"
 description = "Pytest plugin for measuring coverage."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "pytest-cov-4.1.0.tar.gz", hash = "sha256:3904b13dfbfec47f003b8e77fd5b589cd11904a21ddf1ab38a64f204d6a10ef6"},
-    {file = "pytest_cov-4.1.0-py3-none-any.whl", hash = "sha256:6ba70b9e97e69fcc3fb45bfeab2d0a138fb65c4d0d6a41ef33983ad114be8c3a"},
+    {file = "pytest-cov-5.0.0.tar.gz", hash = "sha256:5837b58e9f6ebd335b0f8060eecce69b662415b16dc503883a02f45dfeb14857"},
+    {file = "pytest_cov-5.0.0-py3-none-any.whl", hash = "sha256:4f0764a1219df53214206bf1feea4633c3b558a2925c8b59f144f682861ce652"},
 ]
 
 [package.dependencies]
@@ -3926,7 +3928,7 @@ coverage = {version = ">=5.2.1", extras = ["toml"]}
 pytest = ">=4.6"
 
 [package.extras]
-testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtualenv"]
+testing = ["fields", "hunter", "process-tests", "pytest-xdist", "virtualenv"]
 
 [[package]]
 name = "python-calamine"
@@ -5231,4 +5233,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.13"
-content-hash = "856b792ec24acd5f0142d10e47b418750634c6a7cc55120d6ba33ef6bd5a9ebb"
+content-hash = "b0e946692944f247aa5407c76f04c1a5c2ab31c3ea8c025126221f1b6e438bca"

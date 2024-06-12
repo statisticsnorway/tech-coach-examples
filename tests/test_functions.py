@@ -4,7 +4,8 @@ import pandas as pd
 import pytest
 from pandas import testing as tm
 
-from pytest_examples.functions import is_prime, valuta_omv
+from pytest_examples.functions import is_prime
+from pytest_examples.functions import valuta_omv
 
 
 def test_is_prime():

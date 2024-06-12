@@ -65,7 +65,8 @@ from dapla import AuthClient
 from dotenv import load_dotenv
 from google.api_core.exceptions import NotFound
 from google.cloud import secretmanager
-from google.cloud.secretmanager_v1.types import Replication, Secret
+from google.cloud.secretmanager_v1.types import Replication
+from google.cloud.secretmanager_v1.types import Secret
 
 
 # %%
