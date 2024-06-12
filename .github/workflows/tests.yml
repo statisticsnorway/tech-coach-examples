@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones disabled for a better SonarCloud analysis
 
       - name: Install Poetry
         run: |
