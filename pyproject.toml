@@ -43,7 +43,6 @@ branch = true
 relative_files = true
 
 [tool.coverage.report]
-show_missing = true
 skip_empty = true
 
 [tool.isort]
