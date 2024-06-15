@@ -26,3 +26,8 @@ for utvikling på Dapla.
 [confluence]: https://statistics-norway.atlassian.net/wiki/spaces/KOD/pages/3925147685/Hvordan+automatisere+Jupyter+notebooks+ved+bruk+av+funksjoner
 
 ## Hvordan installere og kjøre eksemplene?
+
+```shell
+poetry install --no-root
+poetry run pytest -v --cov --cov-report=term-missing
+```
