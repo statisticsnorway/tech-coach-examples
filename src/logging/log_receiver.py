@@ -11,7 +11,7 @@ console_handler = logging.StreamHandler()
 file_handler = logging.FileHandler("app.log", mode="a", encoding="utf-8")
 
 formatter = logging.Formatter(
-    "{asctime} - {module: <12} - {levelname: <8} - {message}",
+    "{asctime} - {module} - {levelname} - {message}",
     style="{",
     datefmt="%Y-%m-%d %H:%M",
 )
