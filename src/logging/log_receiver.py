@@ -21,6 +21,8 @@ logger = SsbLogger().get_logger()
 def main() -> None:
     logger.info("Enter main()")
     function_with_logging()
+    logger.debug("Debug message")
+    logger.error("Error message")
     logger.info("Exit main()")
 
 

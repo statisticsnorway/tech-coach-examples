@@ -19,6 +19,7 @@ python-dotenv = ">=1.0.1"
 google-cloud-secret-manager = ">=2.19.0"
 cryptography = ">=42.0.5"
 tzdata = ">=2024.1"
+colorlog = ">=6.8.2"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d", "jupyter"], version = ">=23.3.0"}

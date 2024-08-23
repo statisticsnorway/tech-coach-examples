@@ -2,6 +2,8 @@ import logging
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+from colorlog import ColoredFormatter
+
 
 # Create a custom formatter with Oslo timezone
 class OsloTzFormatter(logging.Formatter):
@@ -11,6 +13,10 @@ class OsloTzFormatter(logging.Formatter):
         # Convert the created time to a datetime object in Oslo timezone
         dt = datetime.fromtimestamp(record.created, tz=ZoneInfo("Europe/Oslo"))
         return dt.strftime(datefmt) if datefmt else dt.isoformat()
+
+
+class ColoredOsloTzFormatter(ColoredFormatter, OsloTzFormatter):
+    pass
 
 
 class SsbLogger:
@@ -42,13 +48,17 @@ class SsbLogger:
         console_handler = logging.StreamHandler()
         file_handler = logging.FileHandler(log_file, mode="a", encoding="utf-8")
 
-        formatter = OsloTzFormatter(
-            "{asctime} [{levelname:^8}] - {message} < {module}.{funcName}#L{lineno}",
-            style="{",
-            datefmt="%Y-%m-%d %H:%M:%S %Z(%z)",
+        fmt = "{asctime} [{levelname:^8}] - {message} < {module}.{funcName}#L{lineno}"
+        colored_fmt = "{log_color}" + fmt
+        style = "{"
+        datefmt = "%Y-%m-%d %H:%M:%S %Z(%z)"
+
+        oslo_tz_formatter = OsloTzFormatter(fmt, style=style, datefmt=datefmt)
+        colored_oslo_tz_formatter = ColoredOsloTzFormatter(
+            colored_fmt, style=style, datefmt=datefmt
         )
-        console_handler.setFormatter(formatter)
-        file_handler.setFormatter(formatter)
+        console_handler.setFormatter(colored_oslo_tz_formatter)
+        file_handler.setFormatter(oslo_tz_formatter)
 
         # Add handlers to the logger
         self.logger.addHandler(console_handler)
