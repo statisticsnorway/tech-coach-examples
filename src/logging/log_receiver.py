@@ -19,9 +19,9 @@ logger = SsbLogger().get_logger()
 
 
 def main() -> None:
-    logger.info("-> Enter main()")
+    logger.info("Enter main()")
     function_with_logging()
-    logger.info("<- Exit main()")
+    logger.info("Exit main()")
 
 
 if __name__ == "__main__":
