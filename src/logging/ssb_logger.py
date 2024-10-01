@@ -1,22 +1,18 @@
+"""SSB logger module.
+
+This module is designed to set up and manage logging within an application.
+The SsbLogger is ment to be the top-level logger in the application, that receives
+log messages from all other modules. It formats the messages in an uniform way and
+directs the messages to the specified outputs (console, file, etc.).
+"""
+
 import logging
-from datetime import datetime
-from zoneinfo import ZoneInfo
+from collections.abc import Callable
+from functools import wraps
+from typing import Any
+from typing import TypeVar
 
 from colorlog import ColoredFormatter
-
-
-# Create a custom formatter with Oslo timezone
-class OsloTzFormatter(logging.Formatter):
-    """Custom logging formatter that formats log timestamps in the Oslo timezone."""
-
-    def formatTime(self, record: logging.LogRecord, datefmt: str | None = None) -> str:
-        # Convert the created time to a datetime object in Oslo timezone
-        dt = datetime.fromtimestamp(record.created, tz=ZoneInfo("Europe/Oslo"))
-        return dt.strftime(datefmt) if datefmt else dt.isoformat()
-
-
-class ColoredOsloTzFormatter(ColoredFormatter, OsloTzFormatter):
-    pass
 
 
 class SsbLogger:
@@ -50,15 +46,15 @@ class SsbLogger:
 
         fmt = "{asctime} [{levelname:^8}] - {message} < {module}.{funcName}#L{lineno}"
         colored_fmt = "{log_color}" + fmt
-        style = "{"
-        datefmt = "%Y-%m-%d %H:%M:%S %Z(%z)"
+        datefmt = "%Y-%m-%dT%H:%M:%S%z"  # ISO 8601
 
-        oslo_tz_formatter = OsloTzFormatter(fmt, style=style, datefmt=datefmt)
-        colored_oslo_tz_formatter = ColoredOsloTzFormatter(
-            colored_fmt, style=style, datefmt=datefmt
+        iso_formatter = logging.Formatter(fmt, datefmt=datefmt, style="{")
+        colored_iso_formatter = ColoredFormatter(
+            colored_fmt, datefmt=datefmt, style="{"
         )
-        console_handler.setFormatter(colored_oslo_tz_formatter)
-        file_handler.setFormatter(oslo_tz_formatter)
+
+        console_handler.setFormatter(colored_iso_formatter)
+        file_handler.setFormatter(iso_formatter)
 
         # Add handlers to the logger
         self.logger.addHandler(console_handler)
@@ -67,3 +63,20 @@ class SsbLogger:
     def get_logger(self):
         """Returns the configured logger instance."""
         return self.logger
+
+
+# Type variable to represent any function signature
+F = TypeVar("F", bound=Callable[..., Any])
+
+
+def log_function_enter_exit(func: F) -> F:
+    """Decorator that logs the entry and exit of a function."""
+
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        logging.info(f"-> Entering {func.__name__} with args: {args}, kwargs: {kwargs}")
+        result = func(*args, **kwargs)
+        logging.info(f"<- Exiting {func.__name__} with result: {result}")
+        return result
+
+    return wrapper
