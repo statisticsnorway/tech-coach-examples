@@ -1,12 +1,9 @@
-"""Log receiver module.
+"""Log demo module.
 
 This module demonstrates use of the SsbLogger class to set up and manage logging within
 an application. It is ment to be the top-level logger in the application, that receives
 log messages from all other modules. Each Jupyter Notebook that you "run" and want
 logs from should have one instance of the SsbLogger class.
-
-Todo:
-    * Check https://github.com/statisticsnorway/ssb-timeseries/blob/main/src/ssb_timeseries/logging.py
 """
 
 import log_sender

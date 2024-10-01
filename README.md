@@ -12,8 +12,10 @@ for utvikling på Dapla.
   - _jupyter:_ Katalog for jupyter notebooks eksempler
     - _jupytext_ipynb.py:_ Viser bruk og oppsett av [jupytext]
       for å lagre Jupyter notebooks som rene python-filer.
+  - _logging:_ Eksempler på bruk av python logging. Se egen
+     [README-fil](./src/logging/README.md) for detaljer.
   - _parquet:_ Eksempler som viser bruk av [parquet-filer], både fra pandas og fra
-    duckdb. Se egen [README-fil](./parquet/README.md) for dette.
+    duckdb. Se egen [README-fil](./src/parquet/README.md) for dette.
   - _pytest_examples_: Eksempel på kode som testes med pytest.
   - _secret:_ Eksempler som viser håndtering av hemmeligheter og kryptering
     av filer.
