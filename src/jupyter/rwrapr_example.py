@@ -13,6 +13,9 @@
 
 # %% [markdown]
 # # Eksempel på bruk av python-biblioteket rwrapr til å kalle R-funksjoner fra python
+#
+# Biblioteket [rwrapr](https://github.com/statisticsnorway/ssb-rwrapr)
+# installeres via kommandoen `poetry add rwrapr`.
 
 # %%
 import numpy as np
@@ -38,18 +41,19 @@ GaussSuppression = wr.library("GaussSuppression")
 # Pakker fra GitHUb installeres slik:
 
 # %%
-import rpy2.robjects as ro
-
-
-ro.r('remotes::install_github("statisticsnorway/ssb-metodebiblioteket")')
-# method_library = wr.library("metodebiblioteket")
-
-# %%
+devtools = wr.library("devtools")
+devtools.install_github("statisticsnorway/ssb-metodebiblioteket")
 method_library = wr.library("metodebiblioteket")
+
+# %% [markdown]
+# ## Bruk
 
 # %%
 suppressed = GaussSuppression.GaussSuppressionFromData(df, np.array([1, 2]), 3)
 suppressed.sample(5, random_state=22)
+
+# %% [markdown]
+# Suppressed er en RDataFrame. For å konvertere til en pandas dataframe bruker du kommandoen toPy():
 
 # %%
 suppressed_df = suppressed.toPy()
