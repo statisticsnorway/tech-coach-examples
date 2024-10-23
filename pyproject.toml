@@ -3,7 +3,7 @@ name = "tech-coach-examples"
 version = "0.1.0"
 description = ""
 authors = ["Arne Sørli <81353974+arneso-ssb@users.noreply.github.com>"]
-license = "MIT"
+license = "GPL-2.0-or-later"
 package-mode = false
 
 [tool.poetry.dependencies]
