@@ -38,7 +38,9 @@ df.head()
 GaussSuppression = wr.library("GaussSuppression")
 
 # %% [markdown]
-# Pakker fra GitHUb installeres slik:
+# Pakker fra GitHub installeres som vist nedenfor. Installasjonen av Metodebiblioteket tar litt tid
+# så du kan hoppe over dette steget hvis du bare kjapt vil teste at rwrapr-biblioteket virker.
+# Metodebiblioteket brukes ikke videre i denne koden.
 
 # %%
 devtools = wr.library("devtools")
@@ -53,8 +55,8 @@ suppressed = GaussSuppression.GaussSuppressionFromData(df, np.array([1, 2]), 3)
 suppressed.sample(5, random_state=22)
 
 # %% [markdown]
-# Suppressed er en RDataFrame. For å konvertere til en pandas dataframe bruker du kommandoen toPy():
+# Suppressed er en RDataFrame. For å konvertere til en pandas dataframe bruker du kommandoen to_py():
 
 # %%
-suppressed_df = suppressed.toPy()
+suppressed_df = suppressed.to_py()
 suppressed_df.head()
