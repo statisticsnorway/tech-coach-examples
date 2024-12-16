@@ -30,7 +30,6 @@ repos:
         entry: end-of-file-fixer
         language: system
         types: [text]
-        stages: [commit, push, manual]
       - id: isort
         name: isort
         entry: isort
@@ -43,7 +42,6 @@ repos:
         entry: trailing-whitespace-fixer
         language: system
         types: [text]
-        stages: [commit, push, manual]
       - id: ruff
         name: ruff
         entry: ruff check --fix --exit-non-zero-on-fix
