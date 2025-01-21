@@ -35,6 +35,11 @@ få en automatisk logmelding når kjøringen av koden går inn og ut av funksjon
 `log_demo.py`: Denne filen viser hvordan det hele brukes og settes opp. Dette
 er en typisk topp-fil der koden kjøres fra.
 
+`log_processdata.py`: Denne filen viser et enkelt ekspempel på logging av prosessdata
+til en fil jsonl-format. Se
+[IT-arkitektur sin informasjonsmodell](https://github.com/statisticsnorway/arkitektur-informasjonsmodeller/tree/main/process-data)
+og skjemaer for dette.
+
 ## Kjør eksempel
 
 ```shell

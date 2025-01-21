@@ -2,13 +2,15 @@
 
 This module is designed to set up and manage logging within an application.
 The SsbLogger is ment to be the top-level logger in the application, that receives
-log messages from all other modules. It formats the messages in an uniform way and
+log messages from all other modules. It formats the messages in a uniform way and
 directs the messages to the specified outputs (console, file, etc.).
 """
 
+import json
 import logging
 from collections.abc import Callable
 from functools import wraps
+from pathlib import Path
 from typing import Any
 from typing import TypeVar
 
@@ -26,15 +28,17 @@ class SsbLogger:
     def __init__(
         self,
         log_level: int = logging.DEBUG,
-        log_file: str = "app.log",
+        log_file: str | Path = "app.log",
         name: str = "root",
+        jsonl=False,
     ) -> None:
         """Initialize the SsbLogger class.
 
         Args:
-            name: The name of the logger. Defaults to 'root'.
-            log_file: The file where logs will be written. Defaults to 'app.log'.
             log_level: The logging level. Defaults to logging.DEBUG.
+            log_file: The file where logs will be written. Defaults to 'app.log'.
+            name: The name of the logger. Defaults to 'root'.
+            jsonl: If a jsonl handler should be added or not. Default to False.
         """
         # Create a logger
         self.logger = logging.getLogger(name)
@@ -60,9 +64,46 @@ class SsbLogger:
         self.logger.addHandler(console_handler)
         self.logger.addHandler(file_handler)
 
+        if jsonl:
+            jsonl_filename = Path(log_file).with_suffix(".jsonl")
+            jsonl_handler = logging.FileHandler(
+                jsonl_filename, mode="a", encoding="utf-8"
+            )
+            jsonl_formatter = JsonlFormatter(datefmt=datefmt)
+            jsonl_handler.setFormatter(jsonl_formatter)
+            self.logger.addHandler(jsonl_handler)
+
     def get_logger(self):
         """Returns the configured logger instance."""
         return self.logger
+
+
+class JsonlFormatter(logging.Formatter):
+    """Handles the formatting of log records into JSON Lines format.
+
+    This class formats log records into JSON Lines format. Basic
+    log information like time, level, and message are included in the
+    formatted output.
+
+    Additionally, if the log record has extra data defined in a 'data' attribute,
+    it integrates it into the JSON log record. This formatter is particularly
+    useful for structured logging or log aggregation systems that consume JSON logs.
+
+    Example:
+        >>> example_data = {"event": "user_login", "user_id": 123, "success": True}
+        >>> logger.info("Logging example data", extra={"data": example_data})
+    """
+
+    def format(self, record):
+        log_record = {
+            "time": self.formatTime(record, self.datefmt),
+            "level": record.levelname,
+            "message": record.getMessage(),
+        }
+        # Add additional fields from record if needed
+        if hasattr(record, "data"):
+            log_record.update(record.data)
+        return json.dumps(log_record)
 
 
 # Type variable to represent any function signature
