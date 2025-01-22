@@ -4,22 +4,22 @@ Filene i denne mappen viser hvordan du kan bruke logging i python til å skrive 
 informasjon fra koden din, både til skjerm og til fil.
 
 > [!NOTE]
-> Merk: Med *logging* mener vi her informasjon som er nyttig ved utvikling av kode, men
-> *ikke* data som skal tas vare på og lagres permanent. Prosessdata,
+> Merk: Med _logging_ mener vi her informasjon som er nyttig ved utvikling av kode, men
+> _ikke_ data som skal tas vare på og lagres permanent. Prosessdata,
 > kvalitetsindikatorer og tilsvarende ting skal lagres i bøtter i et definert format.
 
 ## Fordeler med logging vs bruk print-setninger
 
-* Python sitt loggesystem støtter ulike **loggenivåer**, som lar deg skille mellom
-meldinger av ulik viktighet. Noen vanlige nivåer er: `DEBUG`, `INFO`, `WARNING`,
-`ERROR` og `CRITICAL`.
-* Med logging kan du enkelt logge til filer, konsollen, eller til og med eksterne
-loggesystemer, i stedet for å kun skrive til konsollen som med print. Dette er nyttig
-for kode i produksjon, der det er viktig å kunne hente fram logger fra filer
-for å spore opp problemer.
-* Loggesystemet lar deg enkelt tilpasse formatet på loggmeldingene ved å legge til
-tidsstempler, loggnivå, filnavn, linjenummer, osv. Dette gjør det mye lettere å finne
-ut hvor og når en bestemt hendelse oppstod, spesielt ved feilsøking.
+- Python sitt loggesystem støtter ulike **loggenivåer**, som lar deg skille mellom
+  meldinger av ulik viktighet. Noen vanlige nivåer er: `DEBUG`, `INFO`, `WARNING`,
+  `ERROR` og `CRITICAL`.
+- Med logging kan du enkelt logge til filer, konsollen, eller til og med eksterne
+  loggesystemer, i stedet for å kun skrive til konsollen som med print. Dette er nyttig
+  for kode i produksjon, der det er viktig å kunne hente fram logger fra filer
+  for å spore opp problemer.
+- Loggesystemet lar deg enkelt tilpasse formatet på loggmeldingene ved å legge til
+  tidsstempler, loggnivå, filnavn, linjenummer, osv. Dette gjør det mye lettere å finne
+  ut hvor og når en bestemt hendelse oppstod, spesielt ved feilsøking.
 
 ## Om koden
 

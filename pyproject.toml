@@ -4,10 +4,14 @@ version = "0.1.0"
 description = ""
 authors = ["Arne Sørli <81353974+arneso-ssb@users.noreply.github.com>"]
 license = "MIT"
-package-mode = false
+# To include functions in Jupyter Notebooks from other parts of the directory tree,
+# without using ProjectRoot from ssb-fagfunksjoner.
+packages = [
+    { include = "config" },
+]
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.14"
+python = "^3.10"
 papermill = ">=2.4.0"
 dapla-toolbelt = ">=1.8.2"
 pandas = {extras = ["gcp", "performance"], version = ">=2.0.2"}
@@ -21,6 +25,7 @@ cryptography = ">=42.0.5"
 tzdata = ">=2024.1"
 colorlog = ">=6.8.2"
 google-cloud-logging = ">=3.11.2"
+dynaconf = ">=3.2.6"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d", "jupyter"], version = ">=23.3.0"}

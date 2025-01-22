@@ -22,22 +22,26 @@ I dette eksemplet er det to seksjoner: [server] og [database]. Hver seksjon inne
 For eksempel inneholder [server]-seksjonen tjener og portinnstillinger,
 mens [database]-seksjonen inneholder brukernavn og passord for en database.
 
-## Grunnleggende: Lesing av konfig-filer
+## Bruk av dynaconf til å lese konfig-filer
 
-For å lese og håndtere innholdet i en TOML-fil med Python, kan man for eksempel bruke biblioteket toml som kan
-lese og skrive TOML-formatet. Et eksempel på bruk av toml-biblioteket for å lese en TOML-fil i Python kan være som følger:
+Vi anbefaler bruk av biblioteket [Dynaconf] til å lese og jobbe med konfig-filer i
+python. Det støtter blant annet gjenbruk av variabler. Det vil si at man i en variabel
+i konfig-filen kan gjenbruke andre variabler. Et eksempel på dette kan være at man
+definerer et årstall og så gjenbrukes dette årstallet i et filnavn.
+Dette gjøres ved hjelp av en `@format`-syntaks som vist i dette eksemplet:
 
-```shell
-import toml
-
-with open("config.toml", "r") as f:
-    config = toml.load(f)
-
-print(config["server"]["host"])
-print(config["database"]["username"])
+```toml
+year = "2024"
+weather_data_file_name = "@format weather_data_p{this.year}.parquet"
 ```
 
-Dette vil lese innholdet av config.toml-filen og lagre det som et Python-dictionary-objekt, som deretter kan brukes til å få tilgang til konfigurasjonsdataene i koden.
+Dynaconf bruker to filer som legges i en `config`-mappe:
+
+- `settings.toml`: Selve konfigurasjonene
+- `config.py`: Leser inn konfig-filen og gjør variablene tilgjengelig via et settings-objekt.
+
+Dynaconf støtter også validering, bruk av miljøer med mer.
+Se [tech-coach-stat repoet] for et eksempel på mer avansert bruk.
 
 ## Eksempel: Bruk av konfig-filer på DAPLA
 
@@ -47,18 +51,19 @@ Eksempelet vårt viser hvordan en .toml konfig-fil kan brukes på DAPLA
 
 ```shell
 ├── config
-    ├── config.toml
-├── config_examples
-    ├── config_examples.py
-    ├── ConfigReader.py
-    └── README.md
+    ├── config.py
+    └── settings.toml
+├── src
+    ├── config_examples
+        ├── config_examples.py
+        └── README.md
 ```
 
-`config`-katalogen inneholder en .toml-fil med konfigurasjonsvariabler.
-`config_examples`-katalogen inneholder python filer for å behandle konfigurasjonsdataene fra .toml filen
+`config`-katalogen inneholder .toml-fil med konfigurasjonsvariabler og `config.py` som nevnt ovenfor.
+`src/config_examples`-katalogen inneholder eksempel på bruk
 
-`config.toml` inneholder konfigurasjonsvariabler brukt i dette eksempelet
-`config_examples.py` leser konfigurasjonvariabler fra `config.toml` via `ConfigReader` og viser hvordan disse variablene kan nåes og benyttes med python.
-`ConfigReader.md` definerer en klasse, kalt `ConfigReader`, som brukes til å lese konfigurasjonsfiler i TOML-format og gjør innholdet tilgjengelig via objektattributtet `self.config`.
-
+`config_examples.py` viser hvordan du kan hente ut bruke konfigurasjonsvariablene i din egen kode.
 `README.md`: Denne filen.
+
+[Dynaconf]: https://www.dynaconf.com/
+[tech-coach-stat repoet]: https://github.com/statisticsnorway/tech-coach-stat/tree/main/config
