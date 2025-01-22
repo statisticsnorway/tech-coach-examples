@@ -12,18 +12,9 @@
 # ---
 
 # %%
-from fagfunksjoner.paths.project_root import ProjectRoot
-
-
-with ProjectRoot():
-    from config_examples.ConfigReader import ConfigReader
-
-# %%
-config = ConfigReader()
-
-print(config.config["paths"]["inndata_dir"])
+from config.config import settings
 
 
 # %%
-directory = config.klargjort_dir()
-print(directory)
+print(f"Dapla Team: {settings.dapla_team}")
+print(f"Produkt topp-katalog: {settings.product_root_dir}")

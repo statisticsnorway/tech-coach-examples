@@ -1,0 +1,18 @@
+# This file store common configurations for the project.
+#
+# It is read by Dynaconf in the file `config.py`, and the format supports string
+# substitutions. Dynaconf allows template substitutions for strings values,
+# by using the @format token prefix and including placeholders. Example:
+#
+# DB_NAME = "mydb.db"
+# DB_PATH = "@format /buckets/buckets/produkt/{this.DB_NAME}"
+#
+# See https://www.dynaconf.com/dynamic/ for further details on string substitutions.
+dapla_team = "tip-tutorials"
+short_name = "metstat"  # statistikkens kortnavn, metstat for meteorologisk statistikk
+gcp_project_id = "@format {this.dapla_team}-p-mb"
+kildedata_root_dir = "@format gs://ssb-{this.dapla_team}-data-kilde-prod/{this.short_name}/frost/"
+product_root_dir = "@format gs://ssb-{this.dapla_team}-data-produkt-prod/{this.short_name}/"
+inndata_dir = "@format {this.product_root_dir}inndata/frost/"
+collect_from_date = "2011-01-01"
+weather_station_names = ["OSLO - BLINDERN", "KONGSVINGER"]
