@@ -1,22 +1,31 @@
-from src.logging.ssb_logger import SsbLogger
-from logging.handlers import RotatingFileHandler
+import json
 import logging
+from logging.handlers import RotatingFileHandler
+from pathlib import Path
+
+import pytest
+
+from src.logging.ssb_logger import SsbLogger
+
+
+@pytest.fixture(autouse=True)
+def reset_ssb_logger() -> None:
+    """Reset the SsbLogger for each test. Necessary because it is a singelton object."""
+    SsbLogger._reset_instance()
 
 
 class TestSsbLogger:
 
     # Initialize logger with default parameters and verify console and file handlers are created
-    def test_init_default_parameters(self, tmp_path):
+    def test_init_default_parameters(self, tmp_path) -> None:
         # Arrange
         log_file = tmp_path / "app.log"
-        log_file2 = tmp_path / "app2.log"
 
         # pytest add its own handlers to the root logger, need to account for that
         previous_handlers = len(logging.getLogger().handlers)
 
         # Act
         logger = SsbLogger(log_file=log_file)
-        logger2 = SsbLogger(log_file=log_file2)
 
         # Assert
         handlers = logger.logger.handlers
@@ -27,14 +36,14 @@ class TestSsbLogger:
         assert logger.logger.level == logging.DEBUG
 
     # Verify log messages are written to both console and file with correct format
-    def test_log_messages_written_to_console_and_file(self, tmp_path, caplog):
+    def test_log_messages_written_to_console_and_file(self, tmp_path, caplog) -> None:
         # Arrange
         log_file = tmp_path / "app.log"
-        logger = SsbLogger(log_file=log_file)
+        SsbLogger(log_file=log_file)
         test_message = "Test log message"
 
         # Act
-        logger.get_logger().info(test_message)
+        logging.getLogger(__file__).info(test_message)
 
         # Assert
         # Check console output
@@ -42,6 +51,38 @@ class TestSsbLogger:
         assert test_message in console_output
 
         # Check file output
-        with open(log_file, "r") as f:
+        with open(log_file) as f:
             file_content = f.read()
             assert test_message in file_content
+
+    # Test that only one instance of SsbLogger is created (Singelton pattern)
+    def test_multiple_instances(self, tmp_path) -> None:
+        # Arrange
+        log_file = tmp_path / "app.log"
+
+        # Act
+        logger1 = SsbLogger(log_file=log_file)
+        logger2 = SsbLogger(log_file=log_file)
+
+        # Assert
+        assert logger2 is logger1
+
+    # JSONL logging creates separate file with JSON formatted logs when enabled
+    def test_jsonl_logging_creates_separate_file(self, tmp_path, caplog) -> None:
+
+        # Initialize SsbLogger with jsonl enabled
+        log_file = Path(tmp_path) / "app.log"
+        SsbLogger(jsonl=True, log_file=log_file)
+        test_message = "Test log message"
+
+        # Act
+        # with caplog.at_level(logging.ERROR):
+        logging.getLogger(__file__).info(test_message)
+
+        # Check file output
+        jsonl_file = log_file.with_suffix(".jsonl")
+        with open(jsonl_file) as file:
+            jsonl_list = list(file)
+            assert len(jsonl_list) == 1
+            json_result = json.loads(jsonl_list[0])
+            assert json_result["message"] == test_message

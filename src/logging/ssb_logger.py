@@ -1,10 +1,12 @@
 """SSB logger module.
 
 This module is designed to set up and manage logging within an application.
-The SsbLogger is ment to be the top-level logger in the application, that receives
+The SsbLogger is meant to be the root-level logger in the application, that receives
 log messages from all other modules. It formats the messages in a uniform way and
 directs the messages to the specified outputs (console, file, etc.).
 """
+
+from __future__ import annotations
 
 import json
 import logging
@@ -12,19 +14,42 @@ from collections.abc import Callable
 from functools import wraps
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
+from threading import Lock
 from typing import Any
 from typing import TypeVar
-from threading import Lock
 
 from colorlog import ColoredFormatter
 
 
-class SsbLogger:
-    """A logger class that facilitates logging to both console and file.
+class SingletonMeta(type):
+    """A thread-safe implementation of the Singleton pattern.
 
-    This class sets up a logger with specified parameters, allowing for easy logging
-    of messages with a consistent format. It provides a method to retrieve the
-    configured logger instance for use in other parts of the application.
+    By using this as a class's metaclass, we ensure that there is only one instance
+    of the class.
+    """
+
+    _instance = None
+    _lock: Lock = Lock()
+
+    def __call__(cls, *args, **kwargs):
+        if cls._instance is None:
+            # Double-checked locking pattern
+            with cls._lock:
+                if cls._instance is None:
+                    instance = super().__call__(*args, **kwargs)
+                    cls._instance = instance
+        return cls._instance
+
+
+class SsbLogger(metaclass=SingletonMeta):
+    """A root logger class that facilitates logging to console and files.
+
+    This class is meant to be the root-level logger in an application, that receives
+    log messages from all other modules. It formats the messages in a uniform way and
+    directs the messages to the specified outputs (console, file, etc.)
+
+    There is only one instance of this class, ensured by a singelton pattern
+    implementation.
     """
 
     LOG_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S%z"  # ISO 8601
@@ -39,7 +64,6 @@ class SsbLogger:
         self,
         log_level: int = logging.DEBUG,
         log_file: str | Path = "app.log",
-        name: str = "root",
         jsonl: bool = False,
     ) -> None:
         """Initialize the SsbLogger class.
@@ -47,7 +71,6 @@ class SsbLogger:
         Args:
             log_level: The logging level. Defaults to logging.DEBUG.
             log_file: The file where logs will be written. Defaults to 'app.log'.
-            name: The name of the logger. Defaults to 'root'.
             jsonl: If a jsonl handler should be added or not. Default to False.
         """
         # Create a logger
@@ -106,6 +129,12 @@ class SsbLogger:
     def get_logger(self):
         """Returns the configured logger instance."""
         return self.logger
+
+    @classmethod
+    def _reset_instance(cls) -> None:
+        """Resets the Singleton instance for testing purposes."""
+        with cls._lock:
+            cls._instance = None
 
 
 class JsonlFormatter(logging.Formatter):
