@@ -41,6 +41,21 @@ class SingletonMeta(type):
         return cls._instance
 
 
+class NoEmptyExtraLogsFilter(logging.Filter):
+    """Filter to exclude log messages that would produce empty JSON."""
+
+    def filter(self, record):
+        # Reject records without an extra data field
+        if not hasattr(record, "data"):
+            return False
+
+        # Reject if it has the field, but it is not and there's no useful data
+        if hasattr(record, "data") and not record.data:
+            return False  # Reject the record
+
+        return True  # Accept all other records
+
+
 class StatLogger(metaclass=SingletonMeta):
     """A root logger class that facilitates logging to console and files.
 
@@ -65,6 +80,7 @@ class StatLogger(metaclass=SingletonMeta):
         log_level: int = logging.DEBUG,
         log_file: str | Path = "app.log",
         jsonl: bool = False,
+        extra_only: bool = False,
     ) -> None:
         """Initialize the StatLogger class.
 
@@ -72,6 +88,7 @@ class StatLogger(metaclass=SingletonMeta):
             log_level: The logging level. Defaults to logging.DEBUG.
             log_file: The file where logs will be written. Defaults to 'app.log'.
             jsonl: If a jsonl handler should be added or not. Default to False.
+            extra_only: If only extra data should be logged or not. Default to False.
         """
         # Create a logger
         self.logger = logging.getLogger()  # root logger
@@ -87,7 +104,7 @@ class StatLogger(metaclass=SingletonMeta):
         self._add_console_logger(colored_iso_formatter)
         self._add_file_logger(iso_formatter, log_file)
         if jsonl:
-            self._add_jsonl_logger(log_file)
+            self._add_jsonl_logger(log_file, extra_only)
 
     def _add_console_logger(self, formatter: logging.Formatter) -> None:
         console_handler = logging.StreamHandler()
@@ -100,12 +117,16 @@ class StatLogger(metaclass=SingletonMeta):
         file_handler = self._create_rotating_file_handler(log_file, formatter)
         self.logger.addHandler(file_handler)
 
-    def _add_jsonl_logger(self, log_file: str | Path) -> None:
-        jsonl_formatter = JsonlFormatter(datefmt=self.LOG_DATE_FORMAT)
+    def _add_jsonl_logger(self, log_file: str | Path, extra_only: bool) -> None:
+        jsonl_formatter = JsonlFormatter(
+            datefmt=self.LOG_DATE_FORMAT, extra_only=extra_only
+        )
         jsonl_filename = Path(log_file).with_suffix(".jsonl")
         jsonl_handler = self._create_rotating_file_handler(
             jsonl_filename, jsonl_formatter
         )
+        if extra_only:
+            jsonl_handler.addFilter(NoEmptyExtraLogsFilter())
         self.logger.addHandler(jsonl_handler)
 
     def _create_rotating_file_handler(
@@ -153,16 +174,26 @@ class JsonlFormatter(logging.Formatter):
         >>> logger.info("Logging example data", extra={"data": example_data})
     """
 
+    def __init__(
+        self, fmt=None, datefmt=None, style="%", extra_only: bool = False
+    ) -> None:
+        super().__init__(fmt=fmt, datefmt=datefmt, style=style)
+        self.extra_only = extra_only
+
     def format(self, record):
-        log_record = {
-            "time": self.formatTime(record, self.datefmt),
-            "level": record.levelname,
-            "message": record.getMessage(),
-        }
+        if not self.extra_only:
+            log_record = {
+                "time": self.formatTime(record, self.datefmt),
+                "level": record.levelname,
+                "message": record.getMessage(),
+            }
+        else:
+            log_record = {}
         # Add additional fields from record if needed
         if hasattr(record, "data"):
             log_record.update(record.data)
-        return json.dumps(log_record)
+
+        return None if not log_record else json.dumps(log_record)
 
 
 # Type variable to represent any function signature

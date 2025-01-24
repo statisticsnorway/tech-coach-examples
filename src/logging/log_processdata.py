@@ -12,10 +12,30 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from process_data import ProcessData
+from pydantic import ValidationError
 from statlogger import StatLogger
 
 
-logger = StatLogger(log_file="process.log", jsonl=True).get_logger()
+logger = StatLogger(log_file="process.log", jsonl=True, extra_only=True).get_logger()
+
+
+def validate_jsonl_process_data(file_path: str) -> None:
+    """Reads a JSONL file and validates each line against the ProcessData model."""
+    with open(file_path, encoding="utf-8") as file:
+        for line_number, line in enumerate(file, start=1):
+            try:
+                # Parse the JSON from the current line
+                data = json.loads(line)
+
+                # Validate the JSON data against the ProcessData model
+                process_data = ProcessData(**data)
+
+                # If valid, print or process the data
+                print(f"Line {line_number}: Valid - {process_data}")
+            except json.JSONDecodeError as e:
+                print(f"Line {line_number}: Invalid JSON - {e}")
+            except ValidationError as e:
+                print(f"Line {line_number}: Validation error - {e}")
 
 
 def main() -> None:
@@ -33,6 +53,11 @@ def main() -> None:
 
     process_dict = json.loads(process_data.model_dump_json())
     logger.info("Log processdata", extra={"data": process_dict})
+    logger.info("Log processdata without extra")
+
+    # Read back the logged process data and checks that it validates
+    # according to the schema
+    validate_jsonl_process_data("process.jsonl")
 
 
 if __name__ == "__main__":
