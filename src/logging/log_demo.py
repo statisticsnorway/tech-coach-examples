@@ -11,7 +11,7 @@ from ssb_logger import SsbLogger
 from ssb_logger import log_function_enter_exit
 
 
-logger = SsbLogger().get_logger()
+logger = SsbLogger(jsonl=True).get_logger()
 
 
 @log_function_enter_exit
@@ -26,6 +26,7 @@ def main() -> None:
     logger.info("Info message")
     logger.warning("Warning message")
     logger.error("Error message")
+    logger.critical("Critical message")
     log_sender.function_with_logging("Hello", "World")
     product = my_local_function(2, 3)
     print(f"The product is: {product}")

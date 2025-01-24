@@ -10,9 +10,11 @@ import json
 import logging
 from collections.abc import Callable
 from functools import wraps
+from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from typing import Any
 from typing import TypeVar
+from threading import Lock
 
 from colorlog import ColoredFormatter
 
@@ -25,12 +27,20 @@ class SsbLogger:
     configured logger instance for use in other parts of the application.
     """
 
+    LOG_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S%z"  # ISO 8601
+    LOG_FORMAT = "{asctime} {levelname:^8} {message} < {module}.{funcName} #L{lineno}"
+    COLORED_LOG_FORMAT = "{log_color}" + LOG_FORMAT
+
+    # File handler constants
+    FILE_HANDLER_MAX_BYTES = 1_000_000  # 1MB
+    FILE_HANDLER_BACKUP_COUNT = 5
+
     def __init__(
         self,
         log_level: int = logging.DEBUG,
         log_file: str | Path = "app.log",
         name: str = "root",
-        jsonl=False,
+        jsonl: bool = False,
     ) -> None:
         """Initialize the SsbLogger class.
 
@@ -41,37 +51,57 @@ class SsbLogger:
             jsonl: If a jsonl handler should be added or not. Default to False.
         """
         # Create a logger
-        self.logger = logging.getLogger(name)
+        self.logger = logging.getLogger()  # root logger
         self.logger.setLevel(log_level)
 
-        # Create handlers
-        console_handler = logging.StreamHandler()
-        file_handler = logging.FileHandler(log_file, mode="a", encoding="utf-8")
-
-        fmt = "{asctime} [{levelname:^8}] - {message} < {module}.{funcName}#L{lineno}"
-        colored_fmt = "{log_color}" + fmt
-        datefmt = "%Y-%m-%dT%H:%M:%S%z"  # ISO 8601
-
-        iso_formatter = logging.Formatter(fmt, datefmt=datefmt, style="{")
+        iso_formatter = logging.Formatter(
+            self.LOG_FORMAT, datefmt=self.LOG_DATE_FORMAT, style="{"
+        )
         colored_iso_formatter = ColoredFormatter(
-            colored_fmt, datefmt=datefmt, style="{"
+            self.COLORED_LOG_FORMAT, datefmt=self.LOG_DATE_FORMAT, style="{"
         )
 
-        console_handler.setFormatter(colored_iso_formatter)
-        file_handler.setFormatter(iso_formatter)
+        self._add_console_logger(colored_iso_formatter)
+        self._add_file_logger(iso_formatter, log_file)
+        if jsonl:
+            self._add_jsonl_logger(log_file)
 
-        # Add handlers to the logger
+    def _add_console_logger(self, formatter: logging.Formatter) -> None:
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(formatter)
         self.logger.addHandler(console_handler)
+
+    def _add_file_logger(
+        self, formatter: logging.Formatter, log_file: str | Path
+    ) -> None:
+        file_handler = self._create_rotating_file_handler(log_file, formatter)
         self.logger.addHandler(file_handler)
 
-        if jsonl:
-            jsonl_filename = Path(log_file).with_suffix(".jsonl")
-            jsonl_handler = logging.FileHandler(
-                jsonl_filename, mode="a", encoding="utf-8"
-            )
-            jsonl_formatter = JsonlFormatter(datefmt=datefmt)
-            jsonl_handler.setFormatter(jsonl_formatter)
-            self.logger.addHandler(jsonl_handler)
+    def _add_jsonl_logger(self, log_file: str | Path) -> None:
+        jsonl_formatter = JsonlFormatter(datefmt=self.LOG_DATE_FORMAT)
+        jsonl_filename = Path(log_file).with_suffix(".jsonl")
+        jsonl_handler = self._create_rotating_file_handler(
+            jsonl_filename, jsonl_formatter
+        )
+        self.logger.addHandler(jsonl_handler)
+
+    def _create_rotating_file_handler(
+        self,
+        file_path: str | Path,
+        formatter: logging.Formatter,
+        max_bytes: int = FILE_HANDLER_MAX_BYTES,
+        backup_count: int = FILE_HANDLER_BACKUP_COUNT,
+    ) -> RotatingFileHandler:
+        """Helper function to create a RotatingFileHandler with standard settings."""
+        handler = RotatingFileHandler(
+            file_path,
+            mode="a",
+            encoding="utf-8",
+            maxBytes=max_bytes,
+            backupCount=backup_count,
+        )
+        handler.setFormatter(formatter)
+        return handler
 
     def get_logger(self):
         """Returns the configured logger instance."""
