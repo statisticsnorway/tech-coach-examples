@@ -1,17 +1,17 @@
 """Log demo module.
 
-This module demonstrates use of the SsbLogger class to set up and manage logging within
+This module demonstrates use of the StatLogger class to set up and manage logging within
 an application. It is ment to be the top-level logger in the application, that receives
 log messages from all other modules. Each Jupyter Notebook that you "run" and want
-logs from should have one instance of the SsbLogger class.
+logs from should have one instance of the StatLogger class.
 """
 
 import log_sender
-from ssb_logger import SsbLogger
-from ssb_logger import log_function_enter_exit
+from statlogger import StatLogger
+from statlogger import log_function_enter_exit
 
 
-logger = SsbLogger(jsonl=True).get_logger()
+logger = StatLogger(jsonl=True).get_logger()
 
 
 @log_function_enter_exit

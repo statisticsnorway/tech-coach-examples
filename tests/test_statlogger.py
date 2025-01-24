@@ -5,16 +5,16 @@ from pathlib import Path
 
 import pytest
 
-from src.logging.ssb_logger import SsbLogger
+from src.logging.statlogger import StatLogger
 
 
 @pytest.fixture(autouse=True)
 def reset_ssb_logger() -> None:
-    """Reset the SsbLogger for each test. Necessary because it is a singelton object."""
-    SsbLogger._reset_instance()
+    """Reset the StatLogger for each test. Necessary because it is a singelton object."""
+    StatLogger._reset_instance()
 
 
-class TestSsbLogger:
+class TestStatLogger:
 
     # Initialize logger with default parameters and verify console and file handlers are created
     def test_init_default_parameters(self, tmp_path) -> None:
@@ -25,7 +25,7 @@ class TestSsbLogger:
         previous_handlers = len(logging.getLogger().handlers)
 
         # Act
-        logger = SsbLogger(log_file=log_file)
+        logger = StatLogger(log_file=log_file)
 
         # Assert
         handlers = logger.logger.handlers
@@ -39,7 +39,7 @@ class TestSsbLogger:
     def test_log_messages_written_to_console_and_file(self, tmp_path, caplog) -> None:
         # Arrange
         log_file = tmp_path / "app.log"
-        SsbLogger(log_file=log_file)
+        StatLogger(log_file=log_file)
         test_message = "Test log message"
 
         # Act
@@ -55,14 +55,14 @@ class TestSsbLogger:
             file_content = f.read()
             assert test_message in file_content
 
-    # Test that only one instance of SsbLogger is created (Singelton pattern)
+    # Test that only one instance of StatLogger is created (Singelton pattern)
     def test_multiple_instances(self, tmp_path) -> None:
         # Arrange
         log_file = tmp_path / "app.log"
 
         # Act
-        logger1 = SsbLogger(log_file=log_file)
-        logger2 = SsbLogger(log_file=log_file)
+        logger1 = StatLogger(log_file=log_file)
+        logger2 = StatLogger(log_file=log_file)
 
         # Assert
         assert logger2 is logger1
@@ -70,9 +70,9 @@ class TestSsbLogger:
     # JSONL logging creates separate file with JSON formatted logs when enabled
     def test_jsonl_logging_creates_separate_file(self, tmp_path, caplog) -> None:
 
-        # Initialize SsbLogger with jsonl enabled
+        # Initialize StatLogger with jsonl enabled
         log_file = Path(tmp_path) / "app.log"
-        SsbLogger(jsonl=True, log_file=log_file)
+        StatLogger(jsonl=True, log_file=log_file)
         test_message = "Test log message"
 
         # Act

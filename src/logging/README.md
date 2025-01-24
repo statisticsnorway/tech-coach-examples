@@ -26,7 +26,7 @@ informasjon fra koden din, både til skjerm og til fil.
 `log_sender.py`: Denne filen viser hvordan du skriver logmeldinger i vanlig kode.
 Den bruker kun standard python, ikke noe egenutviklet.
 
-`ssb_logger.py`: Denne definerer en klasse, `SsbLogger`, som setter opp mottak,
+`statlogger.py`: Denne definerer en klasse, `StatLogger`, som setter opp mottak,
 formattering og output av loggemeldinger. Output sendes til konsollen og til fil.
 Du trenger kun å lage en instans av denne, på toppen der du kjører koden din.
 I tillegg inneholder den en dekorator du kan bruke over funksjonene dine for å

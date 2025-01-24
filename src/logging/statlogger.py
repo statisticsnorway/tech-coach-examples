@@ -1,7 +1,7 @@
 """SSB logger module.
 
 This module is designed to set up and manage logging within an application.
-The SsbLogger is meant to be the root-level logger in the application, that receives
+The StatLogger is meant to be the root-level logger in the application, that receives
 log messages from all other modules. It formats the messages in a uniform way and
 directs the messages to the specified outputs (console, file, etc.).
 """
@@ -41,7 +41,7 @@ class SingletonMeta(type):
         return cls._instance
 
 
-class SsbLogger(metaclass=SingletonMeta):
+class StatLogger(metaclass=SingletonMeta):
     """A root logger class that facilitates logging to console and files.
 
     This class is meant to be the root-level logger in an application, that receives
@@ -66,7 +66,7 @@ class SsbLogger(metaclass=SingletonMeta):
         log_file: str | Path = "app.log",
         jsonl: bool = False,
     ) -> None:
-        """Initialize the SsbLogger class.
+        """Initialize the StatLogger class.
 
         Args:
             log_level: The logging level. Defaults to logging.DEBUG.

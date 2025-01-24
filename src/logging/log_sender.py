@@ -1,7 +1,7 @@
 """This module demonstrates how to write log statements in ordinary code.
 
 In the top-level module, the root where you run the code, you need to add an instance
-of the SsbLogger class to receive and print the log messages.
+of the StatLogger class to receive and print the log messages.
 """
 
 import logging

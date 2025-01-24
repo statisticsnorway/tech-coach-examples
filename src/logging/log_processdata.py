@@ -1,6 +1,6 @@
 """Log process data example.
 
-This module demonstrates use of the SsbLogger class to log process data into a log file
+This module demonstrates use of the StatLogger class to log process data into a log file
 in jsonl format as specified in:
 https://github.com/statisticsnorway/arkitektur-informasjonsmodeller/tree/main/process-data
 
@@ -12,10 +12,10 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from process_data import ProcessData
-from ssb_logger import SsbLogger
+from statlogger import StatLogger
 
 
-logger = SsbLogger(log_file="process.log", jsonl=True).get_logger()
+logger = StatLogger(log_file="process.log", jsonl=True).get_logger()
 
 
 def main() -> None:
