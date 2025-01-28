@@ -11,7 +11,7 @@ from statlogger import StatLogger
 from statlogger import log_function_enter_exit
 
 
-logger = StatLogger(jsonl=True).get_logger()
+logger = StatLogger().get_logger()
 
 
 @log_function_enter_exit
