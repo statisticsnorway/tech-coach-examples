@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from src.logging.statlogger import LoggerType
 from src.logging.statlogger import StatLogger
 
 
@@ -72,7 +73,7 @@ class TestStatLogger:
 
         # Initialize StatLogger with jsonl enabled
         log_file = Path(tmp_path) / "app.log"
-        StatLogger(jsonl=True, log_file=log_file)
+        StatLogger(loggers=[LoggerType.JSONL], log_file=log_file)
         test_message = "Test log message"
 
         # Act

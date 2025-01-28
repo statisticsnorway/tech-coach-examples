@@ -11,6 +11,8 @@ from __future__ import annotations
 import json
 import logging
 from collections.abc import Callable
+from collections.abc import Iterable
+from enum import Enum
 from functools import wraps
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
@@ -19,6 +21,24 @@ from typing import Any
 from typing import TypeVar
 
 from colorlog import ColoredFormatter
+
+
+class LoggerType(str, Enum):
+    """Represents the types of loggers you can add to `StatLogger`.
+
+    Attributes:
+        CONSOLE: A logger that writes colored logs to the console.
+        FILE: A logger that writes logs to a file in the same format as the CONSOLE logger.
+        JSONL: A logger that writes logs in JSON Lines format, including
+               message, timestamp, severity level and an optional extra field.
+        JSONL_EXTRA_ONLY: A logger that writes only information from the extra field
+            information in JSON Lines format. Used for logging process and quality data.
+    """
+
+    CONSOLE = "console"
+    FILE = "file"
+    JSONL = "jsonl"
+    JSONL_EXTRA_ONLY = "jsonl_extra_only"
 
 
 class SingletonMeta(type):
@@ -79,17 +99,22 @@ class StatLogger(metaclass=SingletonMeta):
         self,
         log_level: int = logging.DEBUG,
         log_file: str | Path = "app.log",
-        jsonl: bool = False,
-        extra_only: bool = False,
+        loggers: Iterable[LoggerType] = (LoggerType.CONSOLE, LoggerType.FILE),
     ) -> None:
         """Initialize the StatLogger class.
 
         Args:
             log_level: The logging level. Defaults to logging.DEBUG.
             log_file: The file where logs will be written. Defaults to 'app.log'.
-            jsonl: If a jsonl handler should be added or not. Default to False.
-            extra_only: If only extra data should be logged or not. Default to False.
+            loggers: Optional list of `LoggerType`s that should be added. Defaults to
+            LoggerType.CONSOLE and LoggerType.FILE.
+
+        Raises:
+            TypeError: If not all loggers have type LoggerType.
         """
+        if not all(isinstance(logger, LoggerType) for logger in loggers):
+            raise TypeError("All loggers must be of type LoggerType.")
+
         # Create a logger
         self.logger = logging.getLogger()  # root logger
         self.logger.setLevel(log_level)
@@ -101,10 +126,14 @@ class StatLogger(metaclass=SingletonMeta):
             self.COLORED_LOG_FORMAT, datefmt=self.LOG_DATE_FORMAT, style="{"
         )
 
-        self._add_console_logger(colored_iso_formatter)
-        self._add_file_logger(iso_formatter, log_file)
-        if jsonl:
-            self._add_jsonl_logger(log_file, extra_only)
+        if LoggerType.CONSOLE in loggers:
+            self._add_console_logger(colored_iso_formatter)
+        if LoggerType.FILE in loggers:
+            self._add_file_logger(iso_formatter, log_file)
+        if LoggerType.JSONL in loggers:
+            self._add_jsonl_logger(log_file, extra_only=False)
+        if LoggerType.JSONL_EXTRA_ONLY in loggers:
+            self._add_jsonl_logger(log_file, extra_only=True)
 
     def _add_console_logger(self, formatter: logging.Formatter) -> None:
         console_handler = logging.StreamHandler()
