@@ -13,10 +13,12 @@ from zoneinfo import ZoneInfo
 
 from process_data import ProcessData
 from pydantic import ValidationError
+from statlogger import LoggerType
 from statlogger import StatLogger
 
 
-logger = StatLogger(log_file="process.log", jsonl=True, extra_only=True).get_logger()
+loggers = [LoggerType.JSONL_EXTRA_ONLY, LoggerType.CONSOLE]
+logger = StatLogger(log_file="process.log", loggers=loggers).get_logger()
 
 
 def validate_jsonl_process_data(file_path: str) -> None:
@@ -31,11 +33,11 @@ def validate_jsonl_process_data(file_path: str) -> None:
                 process_data = ProcessData(**data)
 
                 # If valid, print or process the data
-                print(f"Line {line_number}: Valid - {process_data}")
+                logger.info(f"Line {line_number}: Valid - {process_data}")
             except json.JSONDecodeError as e:
-                print(f"Line {line_number}: Invalid JSON - {e}")
+                logger.info(f"Line {line_number}: Invalid JSON - {e}")
             except ValidationError as e:
-                print(f"Line {line_number}: Validation error - {e}")
+                logger.info(f"Line {line_number}: Validation error - {e}")
 
 
 def main() -> None:

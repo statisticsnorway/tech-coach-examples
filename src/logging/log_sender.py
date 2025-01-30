@@ -16,4 +16,3 @@ def function_with_logging(a: str, b: str) -> None:
     # Use %-style formatting when logging in order to get lazy formatting.
     # Then the string is only formatted if the log message is actually emitted
     logger.debug("The arguments are %s and %s", a, b)
-    return sum

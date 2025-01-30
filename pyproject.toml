@@ -26,6 +26,7 @@ tzdata = ">=2024.1"
 colorlog = ">=6.8.2"
 google-cloud-logging = ">=3.11.2"
 dynaconf = ">=3.2.6"
+pydantic = {extras = ["mypy"], version = ">=2.10.6"}
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d", "jupyter"], version = ">=23.3.0"}
@@ -39,6 +40,8 @@ pytest = ">=7.3.1"
 ruff = ">=0.1.3"
 pytest-cov = ">=4.1.0"
 faker = ">=24.11.0"
+mypy = ">=1.14.1"
+datamodel-code-generator = ">=0.26.5"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -68,6 +71,11 @@ treat_comments_as_code = ["# %%"]
 formats = "ipynb,auto:percent"
 notebook_metadata_filter = "jupytext.text_representation,-jupytext.text_representation.jupytext_version,-widgets,-varInspector"
 cell_metadata_filter = "-papermill,tags"
+
+[tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
 
 [tool.ruff]
 force-exclude = true  # Apply excludes to pre-commit

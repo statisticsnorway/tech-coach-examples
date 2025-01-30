@@ -19,6 +19,7 @@ from pathlib import Path
 from threading import Lock
 from typing import Any
 from typing import TypeVar
+from typing import cast
 
 from colorlog import ColoredFormatter
 
@@ -66,14 +67,7 @@ class NoEmptyExtraLogsFilter(logging.Filter):
 
     def filter(self, record):
         # Reject records without an extra data field
-        if not hasattr(record, "data"):
-            return False
-
-        # Reject if it has the field, but it is not and there's no useful data
-        if hasattr(record, "data") and not record.data:
-            return False  # Reject the record
-
-        return True  # Accept all other records
+        return bool(record.data) if hasattr(record, "data") else False
 
 
 class StatLogger(metaclass=SingletonMeta):
@@ -199,6 +193,7 @@ class JsonlFormatter(logging.Formatter):
     useful for structured logging or log aggregation systems that consume JSON logs.
 
     Example:
+        >>> logger = logging.getLogger(__name__)
         >>> example_data = {"event": "user_login", "user_id": 123, "success": True}
         >>> logger.info("Logging example data", extra={"data": example_data})
     """
@@ -222,7 +217,7 @@ class JsonlFormatter(logging.Formatter):
         if hasattr(record, "data"):
             log_record.update(record.data)
 
-        return None if not log_record else json.dumps(log_record)
+        return json.dumps(log_record) if log_record else None
 
 
 # Type variable to represent any function signature
@@ -239,4 +234,4 @@ def log_function_enter_exit(func: F) -> F:
         logging.info(f"<- Exiting {func.__name__} with result: {result}")
         return result
 
-    return wrapper
+    return cast(F, wrapper)

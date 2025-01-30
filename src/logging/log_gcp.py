@@ -1,5 +1,7 @@
 import logging
+
 import google.cloud.logging
+
 
 # Initialize the Cloud Logging client
 client = google.cloud.logging.Client(project="tech-coach-p-ku")
