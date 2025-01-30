@@ -9,7 +9,6 @@ The defined json-schema is converted to a Pydantic model for data validation.
 
 import json
 from datetime import datetime
-from zoneinfo import ZoneInfo
 
 from process_data import ProcessData
 from pydantic import ValidationError
@@ -41,8 +40,7 @@ def validate_jsonl_process_data(file_path: str) -> None:
 
 
 def main() -> None:
-    timezone = ZoneInfo("Europe/Oslo")
-    current_datetime = datetime.now(tz=timezone)
+    current_datetime = datetime.now().astimezone()
     process_data = ProcessData(
         statistics_name="metstat",
         data_target="gs://ssb-tip-tutorials-data-produkt-prod/metstat/inndata/frost/weather_stations_v1.parquet",
