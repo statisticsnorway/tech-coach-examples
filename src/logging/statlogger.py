@@ -1,9 +1,45 @@
-"""SSB logger module.
+"""StatLogger module.
 
 This module is designed to set up and manage logging within an application.
 The StatLogger is meant to be the root-level logger in the application, that receives
 log messages from all other modules. It formats the messages in a uniform way and
 directs the messages to the specified outputs (console, file, etc.).
+
+It supports four types of Loggers:
+- CONSOLE: A logger that writes colored logs to the console.
+- FILE: A logger that writes logs to a file in the same format as the CONSOLE logger.
+- JSONL: A logger that writes logs to a file in JSON Lines format, including message,
+    timestamp, severity level and an optional extra `data` field.
+- JSONL_EXTRA_ONLY: A logger that writes only information from the extra `data` field
+     in JSON Lines format. Used for logging process and quality data.
+The CONSOLE and FILE loggers are enabled by default.
+
+The JSONL and JSONL_EXTRA_ONLY loggers can log extra data by sending a dictionary with
+the extra data to the `data` extra parameter. See example below.
+
+Examples:
+    Create an instance of the StatLogger at the start of your application. That is in
+    the main program or at the top of your Jupyter notebook. From then on you can use
+    standard python logging to log from your code.
+
+    Normal setup:
+    >>> from src.logging.statlogger import StatLogger
+    >>> import logging
+    >>>
+    >>> root_logger = StatLogger()
+    Setup with different loggers and a custom filename:
+    >>> from src.logging.statlogger import StatLogger, LoggerType
+    >>> import logging
+    >>>
+    >>> loggers = [LoggerType.CONSOLE, LoggerType.FILE, LoggerType.JSONL]
+    >>> root_logger = StatLogger(loggers=loggers, log_file="custom_log_file.log")
+    Create log messages in your code:
+    >>> logger = logging.getLogger(__name__)
+    >>> logger.info("This is an info message")
+    >>> logger.warning("This is a warning message")
+    >>>
+    >>> example_data = {"event": "user_login", "user_id": 123, "success": True}
+    >>> logger.info("Logging example data", extra={"data": example_data})
 """
 
 from __future__ import annotations
@@ -25,7 +61,7 @@ from typing import cast
 from colorlog import ColoredFormatter
 
 
-class LoggerType(str, Enum):
+class LoggerType(Enum):
     """Represents the types of loggers you can add to `StatLogger`.
 
     Attributes:
