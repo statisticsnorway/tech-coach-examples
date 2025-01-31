@@ -17,7 +17,7 @@ from statlogger import StatLogger
 
 
 loggers = [LoggerType.JSONL_EXTRA_ONLY, LoggerType.CONSOLE]
-logger = StatLogger(log_file="process.log", loggers=loggers).get_logger()
+logger = StatLogger(log_file="process.log", loggers=loggers).getLogger()
 
 
 def validate_jsonl_process_data(file_path: str) -> None:

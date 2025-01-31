@@ -11,7 +11,7 @@ from statlogger import StatLogger
 from statlogger import log_function_enter_exit
 
 
-logger = StatLogger().get_logger()
+logger = StatLogger().getLogger()
 
 
 @log_function_enter_exit

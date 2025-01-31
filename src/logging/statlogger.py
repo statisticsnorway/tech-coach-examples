@@ -18,6 +18,7 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from threading import Lock
 from typing import Any
+from typing import Literal
 from typing import TypeVar
 from typing import cast
 
@@ -65,7 +66,7 @@ class SingletonMeta(type):
 class NoEmptyExtraLogsFilter(logging.Filter):
     """Filter to exclude log messages that would produce empty JSON."""
 
-    def filter(self, record):
+    def filter(self, record: logging.LogRecord) -> bool:
         # Reject records without an extra data field
         return bool(record.data) if hasattr(record, "data") else False
 
@@ -170,7 +171,7 @@ class StatLogger(metaclass=SingletonMeta):
         handler.setFormatter(formatter)
         return handler
 
-    def get_logger(self):
+    def getLogger(self) -> logging.Logger:
         """Returns the configured logger instance."""
         return self.logger
 
@@ -199,12 +200,16 @@ class JsonlFormatter(logging.Formatter):
     """
 
     def __init__(
-        self, fmt=None, datefmt=None, style="%", extra_only: bool = False
+        self,
+        fmt: str | None = None,
+        datefmt: str | None = None,
+        style: Literal["%", "{", "$"] = "%",
+        extra_only: bool = False,
     ) -> None:
         super().__init__(fmt=fmt, datefmt=datefmt, style=style)
         self.extra_only = extra_only
 
-    def format(self, record):
+    def format(self, record: logging.LogRecord) -> str:
         if not self.extra_only:
             log_record = {
                 "time": self.formatTime(record, self.datefmt),
@@ -215,9 +220,9 @@ class JsonlFormatter(logging.Formatter):
             log_record = {}
         # Add additional fields from record if needed
         if hasattr(record, "data"):
-            log_record.update(record.data)
+            log_record |= record.data
 
-        return json.dumps(log_record) if log_record else None
+        return json.dumps(log_record) if log_record else ""
 
 
 # Type variable to represent any function signature
