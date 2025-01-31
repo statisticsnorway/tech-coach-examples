@@ -68,7 +68,11 @@ class NoEmptyExtraLogsFilter(logging.Filter):
 
     def filter(self, record: logging.LogRecord) -> bool:
         # Reject records without an extra data field
-        return bool(record.data) if hasattr(record, "data") else False
+        return (
+            bool(record.data)  # pyright: ignore [reportAttributeAccessIssue]
+            if hasattr(record, "data")
+            else False
+        )
 
 
 class StatLogger(metaclass=SingletonMeta):
@@ -220,7 +224,7 @@ class JsonlFormatter(logging.Formatter):
             log_record = {}
         # Add additional fields from record if needed
         if hasattr(record, "data"):
-            log_record |= record.data
+            log_record |= record.data  # pyright: ignore [reportAttributeAccessIssue]
 
         return json.dumps(log_record) if log_record else ""
 
