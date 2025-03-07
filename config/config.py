@@ -1,4 +1,9 @@
 from dynaconf import Dynaconf
 
 
-settings = Dynaconf(envvar_prefix="DYNACONF", settings_files=["settings.toml"])
+settings = Dynaconf(
+    settings_files=["settings_template.toml"],
+    envvar_prefix="DYNACONF",
+    environments=True,
+    env="default",  # Change this to gsbuckets for use with google storage buckets
+)
