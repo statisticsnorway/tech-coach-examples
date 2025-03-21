@@ -24,6 +24,7 @@ print(f"{settings.inndata_dir=}")
 print(f"{settings.klargjort_dir=}")
 print(f"{settings.statistikk_dir=}")
 print(f"{settings.utdata_dir=}")
+print(f"{settings.temporary_run=}")  # Override by export DYNACONF_TEMPORARY_RUN=false
 
 # %%
 weather_stations_file = f"{settings.inndata_dir}/frost/weather_stations_v1.parquet"
