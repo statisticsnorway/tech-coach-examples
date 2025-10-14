@@ -15,11 +15,12 @@
 # # Hvordan se på csv-filer med Excel-lignenede funksjonalitet
 
 # %% [markdown]
-# from pathlib import Path
-# from ipydatagrid import DataGrid
-# from IPython.display import display
-#
-# import pandas as pd
+from pathlib import Path
+
+import pandas as pd
+from ipydatagrid import DataGrid
+from IPython.display import display
+
 
 # %%
 # Erstatt katalog og filnavn med dine data
