@@ -14,21 +14,23 @@
 # %% [markdown]
 # # Hvordan se på csv-filer med Excel-lignenede funksjonalitet
 
-# %% [markdown]
+# %%
 from pathlib import Path
 
 import pandas as pd
+from dapla import repo_root_dir
 from ipydatagrid import DataGrid
 from IPython.display import display
 
 
 # %%
 # Erstatt katalog og filnavn med dine data
-directory = Path.cwd() / "dataset"
+directory = Path(repo_root_dir()) / "src" / "parquet" / "dataset"
 filename = "customers.csv"
 
 # %%
 df = pd.read_csv(directory / filename)
+print(df.head())
 
 grid = DataGrid(df)
 display(grid)

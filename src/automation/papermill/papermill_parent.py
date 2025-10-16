@@ -27,8 +27,10 @@
 
 # %%
 import time
+from pathlib import Path
 
 import papermill as pm
+from dapla import repo_root_dir
 
 
 # %%
@@ -46,17 +48,18 @@ klargjort_path = f"{bucket}/{klargjort_file}"
 print(f"{klargjort_path=}")
 
 # %%
+root_dir = Path(repo_root_dir())
 start_time = time.time()
 result = pm.execute_notebook(
-    "papermill_child1.ipynb",
-    "papermill_child1_output.ipynb",
+    root_dir / "src" / "automation" / "papermill" / "papermill_child1.ipynb",
+    root_dir / "src" / "automation" / "papermill" / "papermill_child1_output.ipynb",
     parameters=dict(in_path=inndata_path, out_path=process_step1_path),
 )
 
 # %%
 result = pm.execute_notebook(
-    "papermill_child2.ipynb",
-    "papermill_child2_output.ipynb",
+    root_dir / "src" / "automation" / "papermill" / "papermill_child2.ipynb",
+    root_dir / "src" / "automation" / "papermill" / "papermill_child2_output.ipynb",
     parameters=dict(in_path=process_step1_path, out_path=klargjort_path),
 )
 
