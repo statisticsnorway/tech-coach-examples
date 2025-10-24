@@ -28,6 +28,7 @@ google-cloud-logging = ">=3.11.2"
 dynaconf = ">=3.2.6"
 pydantic = {extras = ["mypy"], version = ">=2.10.6"}
 ipydatagrid = ">=1.4.0"
+hack4ssb2025-faker = {git = "https://github.com/statisticsnorway/hack4ssb2025-faker.git", rev = "main"}
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d", "jupyter"], version = ">=23.3.0"}

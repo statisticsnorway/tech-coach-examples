@@ -14,6 +14,7 @@
 # %%
 import pandas as pd
 from faker import Faker
+from hack4ssb2025_faker import SSBFaker
 
 
 # %% [markdown]
@@ -47,3 +48,31 @@ def generate_faker_df(rows: int) -> pd.DataFrame:
 # %%
 df = generate_faker_df(10)
 df.head()
+
+# %% [markdown]
+# # Bruk av hack4ssb2025-faker
+# På hack4SSB i 2025 var det en gruppe som blant annet lagde nye faker-metoder for
+# variabler som er mye brukt i SSB. For eksempel fødselsnummer, org-nummer osv.
+# Her er eksempel på bruk av dette.
+#
+# For mange av variablene trekkes verdiene fra kodelister i klass.
+#
+# Biblioteket er ikke lagt ut på PyPI ennå, men det kan installeres med denne kommandoen:
+# `poetry add git+https://github.com/statisticsnorway/hack4ssb2025-faker.git#main`.
+
+# %%
+ssb_fake = SSBFaker()
+columns = [
+    "fnr",
+    "kommune",
+    "fylke",
+    "orgnr",
+    "snr",
+    "nace",
+    "yrkeskode",
+    "utdanning",
+    "sivilstand",
+    "landkode",
+]
+ssb_df = ssb_fake.create_data(columns, n=10)
+ssb_df.head()
