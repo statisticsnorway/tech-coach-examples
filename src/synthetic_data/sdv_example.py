@@ -15,16 +15,20 @@
 # # Bruk av Synthetic Data Vault (sdv)
 # Denne filen viser bruk av [python-biblioteket sdv](https://github.com/sdv-dev/SDV)
 # til generere syntetiske data. Det baserer seg på å analysere dine eksisterende data
-# og så generere nye syntetiske data med lignende statistiske egenskaper. 
+# og så generere nye syntetiske data med lignende statistiske egenskaper.
 
 # %%
-from sdv.single_table import GaussianCopulaSynthesizer
-from sdv.metadata import Metadata
-import pandas as pd
 from pathlib import Path
 
+import pandas as pd
+from sdv.metadata import Metadata
+from sdv.single_table import GaussianCopulaSynthesizer
+
+
 # %%
-filename = "/buckets/produkt/metstat/inndata/frost/weather_stations_v2.parquet"
+filename = (
+    "/buckets/produkt/tech-coach/metstat/inndata/frost/weather_stations_v1.parquet"
+)
 df = pd.read_parquet(filename)
 df.head()
 
@@ -47,4 +51,3 @@ synthesizer.fit(df)
 # Generate synthetic data
 df_synthetic = synthesizer.sample(num_rows=len(df))
 df_synthetic.head(200)
-
