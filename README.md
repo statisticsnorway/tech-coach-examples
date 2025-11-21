@@ -19,6 +19,8 @@ for utvikling på Dapla.
   - _pytest_examples_: Eksempel på kode som testes med pytest.
   - _secret:_ Eksempler som viser håndtering av hemmeligheter og kryptering
     av filer.
+  - _synthetic_data:_ Eksempler som viser generering av syntetiske data ved hjelp
+    av bibliotekene faker, ssb-faker og sdv.
 - _tests_: Katalog for tester (pytest)
 
 [jupytext]: https://github.com/mwouts/jupytext#readme

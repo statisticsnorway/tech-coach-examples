@@ -24,13 +24,15 @@ from IPython.display import display
 
 
 # %%
-# Erstatt katalog og filnavn med dine data
 directory = Path(repo_root_dir()) / "src" / "parquet" / "dataset"
 filename = "customers.csv"
 
+
 # %%
 df = pd.read_csv(directory / filename)
-print(df.head())
+df.head()
 
+
+# %%
 grid = DataGrid(df)
 display(grid)
