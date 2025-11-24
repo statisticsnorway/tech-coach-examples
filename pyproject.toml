@@ -29,6 +29,7 @@ dynaconf = ">=3.2.6"
 pydantic = {extras = ["mypy"], version = ">=2.10.6"}
 ipydatagrid = ">=1.4.0"
 hack4ssb2025-faker = {git = "https://github.com/statisticsnorway/hack4ssb2025-faker.git", rev = "main"}
+faker = ">=37.0"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d", "jupyter"], version = ">=23.3.0"}
