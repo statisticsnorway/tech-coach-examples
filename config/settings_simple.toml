@@ -10,8 +10,8 @@
 # See https://www.dynaconf.com/dynamic/ for further details on string substitutions.
 
 dapla_team = "tip-tutorials"
-short_name = "metstat"  # statistikkens kortnavn
-environment = "prod"    # 'prod' or 'test'
+short_name = "metstat"      # statistikkens kortnavn
+run_environment = "prod"    # 'prod' or 'test'
 temporary_run = true
 
 [directories]
