@@ -1,7 +1,7 @@
 # This file stores common configurations for the project.
 #
 # It is read by Dynaconf in the file `config.py`, and the format supports string
-# substitutions. Dynaconf allows string substitions by using the @format token prefix
+# substitutions. Dynaconf allows string substitutions by using the @format token prefix
 # and including placeholders. Example:
 #
 # DB_NAME = "mydb.db"

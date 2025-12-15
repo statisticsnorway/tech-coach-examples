@@ -30,7 +30,7 @@ from config.config import settings_simple
 # i config-katalogen.
 #
 # Ting som produksjonsår og kjøremiljø settes en gang, og så kan man gjenbruke det
-# i de andre variablene man setter, via noe som kalles *string substitions*.
+# i de andre variablene man setter, via noe som kalles *string substitutions*.
 # Eksempel:
 #
 # DB_NAME = "mydb.db"
@@ -53,7 +53,7 @@ print(weather_stations_file)
 
 # %% [markdown]
 # ## Enkelt oppsett
-# Med dette oppsettet kan du ikke gjenbruk variable, så du må manuelt bytte ut alle
+# Med dette oppsettet kan du ikke gjenbruke variable, så du må manuelt bytte ut alle
 # steder hvor en variabel er brukt. Hvis du for eksempel bytter fra å kjøre i
 # prod-miljøet til i test-miljøet, så må du gå gjennom alle bøttestier å endre `prod`
 # til `test`. Men til gjengjeld er config-filene lettere å forstå siden den ikke bruker
