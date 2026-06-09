@@ -8,6 +8,7 @@ license = "MIT"
 # without using ProjectRoot from ssb-fagfunksjoner.
 packages = [
     { include = "config" },
+    { include = "pytest_examples", from = "src" },
 ]
 
 [tool.poetry.dependencies]
