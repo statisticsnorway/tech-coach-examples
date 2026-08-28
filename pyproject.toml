@@ -29,12 +29,19 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "pytest>=7.1.3",
-    "pytest-cov>=5.0.0",
-    "black[jupyter]>=25.11.0",
-    "isort>=5.12.0",
-    "pre-commit>=4.4.0",
-    "pre-commit-hooks>=6.0.0",
+    "pytest (>=7.3.1)",
+    "pytest-cov (>=4.1.0)",
+    "black[d,jupyter] (>=23.3.0)",
+    "isort (>=5.12.0)",
+    "pre-commit (>=3.3.1)",
+    "pre-commit-hooks (>=4.4.0)",
+    "jupyter (>=1.0.0)",
+    "jupytext (>=1.15.2)",
+    "nbstripout (>=0.6.1)",
+    "ruff (>=0.1.3)",
+    "faker (>=24.11.0)",
+    "mypy (>=1.14.1)",
+    "datamodel-code-generator (>=0.26.5)",
 ]
 
 [tool.poetry]
@@ -43,7 +50,7 @@ requires-poetry = ">=2.2"
 # without using ProjectRoot from ssb-fagfunksjoner.
 packages = [
     { include = "config" },
-#     { include = "functions", from = "src" },
+    { include = "pytest_examples", from = "src" },
 ]
 
 [tool.poetry.dependencies]
@@ -61,6 +68,13 @@ skip_gitignore = true
 # See https://github.com/PyCQA/isort/issues/1338 for details
 treat_comments_as_code = ["# %%"]
 
+[tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
+
+
+
 [tool.jupytext]
 formats = "ipynb,auto:percent"
 notebook_metadata_filter = "jupytext.text_representation,-jupytext.text_representation.jupytext_version,-widgets,-varInspector"
@@ -70,5 +84,77 @@ cell_metadata_filter = "-papermill,tags"
 pythonpath = ["src"]
 testpaths = ["tests"]
 
+[tool.coverage.run]
+branch = true
+relative_files = true
+
+[tool.coverage.report]
+skip_empty = true
+
 [tool.uv]
 exclude-newer = "7 days"
+
+[tool.ruff]
+force-exclude = true  # Apply excludes to pre-commit
+show-fixes = true
+# src = ["src", "tests"]
+target-version = "py310"  # Minimum Python version supported
+include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
+extend-exclude = [
+    "__pycache__",
+    "old",
+    ".ipynb_checkpoints",
+    "noxfile.py",
+    "docs/conf.py",
+]
+
+# Ruff rules may be customized as desired: https://docs.astral.sh/ruff/rules/
+[tool.ruff.lint]
+select = [
+    "A",    # prevent using keywords that clobber python builtins
+    "B",    # bugbear: security warnings
+    "D",    # pydocstyle
+    "E",    # pycodestyle
+    "F",    # pyflakes
+    "ISC",  # implicit string concatenation
+    "UP",   # alert you when better syntax is available in your python version
+    "RUF",  # the ruff developer's own rules
+]
+ignore = [
+    "ANN202", # Don't requiere return type annotation for private functions.
+    "ANN401", # Allow type annotation with type Any.
+    "D100",   # Supress undocumented-public-module. Only doc of public api required.
+    "E402",   # Supress module-import-not-at-top-of-file, needed in jupyter notebooks.
+    "E501",   # Supress line-too-long warnings: trust black's judgement on this one.
+    "I001",   # Don't use ruff to sort imports because of jupytext files.
+    "T201",   # Allow print statements.
+    "ERA001", # Allow commented-out code, needed for jupytext.
+    "INP001", # Don't require __init__.py file.
+    "B018",   # Like T201, allow expressions printing variables in notebooks.
+    "C408",   # Allow unnecessary collection call since can be more readable.
+    "D101",   # Don't require docstring.
+    "D102",   # Don't require docstring.
+    "D103",   # Don't require docstring.
+    "D107",   # Don't require docstring.
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 15
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"  # You can also use "numpy".
+
+[tool.ruff.lint.per-file-ignores]
+"*/__init__.py" = ["F401"]
+"**/tests/*" = [
+    "ANN003",  # type annotations don't add value for test functions
+    "ANN201",  # type annotations don't add value for test functions
+    "ANN204",  # type annotations don't add value for test functions
+    "ANN205",  # type annotations don't add value for test functions
+    "ANN206",  # type annotations don't add value for test functions
+    "D100",    # docstrings are overkill for test functions
+    "D101",
+    "D102",
+    "D103",
+    "S101",    # asserts are encouraged in pytest
+]

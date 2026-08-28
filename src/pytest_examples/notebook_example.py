@@ -30,7 +30,6 @@
 import dapla as dp
 import pandas as pd
 
-
 write_test_data = True
 
 

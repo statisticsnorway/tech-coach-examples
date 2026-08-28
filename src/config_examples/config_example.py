@@ -14,7 +14,6 @@
 # %%
 from config.config import settings
 
-
 # %%
 print(f"{settings.dapla_team=}")
 print(f"{settings.short_name=}")

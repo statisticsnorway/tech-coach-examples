@@ -22,7 +22,6 @@ from dapla import repo_root_dir
 from ipydatagrid import DataGrid
 from IPython.display import display
 
-
 # %%
 directory = Path(repo_root_dir()) / "src" / "parquet" / "dataset"
 filename = "customers.csv"

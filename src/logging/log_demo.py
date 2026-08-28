@@ -10,7 +10,6 @@ import log_sender
 from statlogger import StatLogger
 from statlogger import log_function_enter_exit
 
-
 logger = StatLogger().getLogger()
 
 
