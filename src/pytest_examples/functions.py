@@ -63,7 +63,7 @@ def valuta_omv(inndata: pd.DataFrame, val_data: pd.DataFrame) -> pd.DataFrame:
     # Endre return hvis vi bare vil ha ut en summering av omvurderingene
     # Hvis det ikke er data returneres et tomt datasett
     try:
-        return pd.concat(val_omv)
+        return pd.concat(val_omv).reset_index(drop=True)
     except ValueError:
         print("WARNING! Empty DataFrame returned")
         return koblet

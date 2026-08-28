@@ -4,7 +4,6 @@ import nbformat
 from dapla.git import repo_root_dir
 from nbconvert.preprocessors import ExecutePreprocessor
 
-
 python_executable_path = sys.executable
 
 print("Path to the current Python executable:", python_executable_path)

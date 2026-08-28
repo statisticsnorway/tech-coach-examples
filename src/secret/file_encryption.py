@@ -30,7 +30,6 @@ from dapla import repo_root_dir
 from dotenv import load_dotenv
 from tomli import loads
 
-
 # %% [markdown]
 # ## Hjelpefunksjoner
 # Verdt å merke seg i funksjonene nedenfor er at krypteringsbiblioteket bruker byte

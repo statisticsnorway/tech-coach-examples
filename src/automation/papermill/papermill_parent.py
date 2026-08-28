@@ -32,7 +32,6 @@ from pathlib import Path
 import papermill as pm
 from dapla import repo_root_dir
 
-
 # %%
 bucket = "gs://ssb-prod-dapla-felles-data-delt"
 inndata_file = "tech-coach/automation/valuta_p2020_p2023-09-21_v1.parquet"

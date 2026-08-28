@@ -5,7 +5,6 @@ from pathlib import Path
 import dataset
 import duckdb
 
-
 conn = duckdb.connect()
 
 

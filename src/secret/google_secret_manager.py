@@ -68,7 +68,6 @@ from google.cloud import secretmanager
 from google.cloud.secretmanager_v1.types import Replication
 from google.cloud.secretmanager_v1.types import Secret
 
-
 # %%
 load_dotenv()  # Laster inn .env fil og setter miljøvariable
 project_id = os.getenv("GCP_PROJECT_ID")

@@ -24,7 +24,6 @@ print(f"{out_path=}")
 import dapla as dp
 import pandas as pd
 
-
 # %%
 df = dp.read_pandas(gcs_path=in_path)
 df.head()
