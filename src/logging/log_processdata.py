@@ -15,7 +15,6 @@ from pydantic import ValidationError
 from statlogger import LoggerType
 from statlogger import StatLogger
 
-
 loggers = [LoggerType.JSONL_EXTRA_ONLY, LoggerType.CONSOLE]
 logger = StatLogger(log_file="process.log", loggers=loggers).getLogger()
 

@@ -14,7 +14,6 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-
 # Vis alle kolonner og rader
 pd.set_option("display.max_columns", None)
 pd.set_option("display.width", None)

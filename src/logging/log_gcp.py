@@ -5,7 +5,6 @@ import google.cloud.logging
 
 from config.config import settings
 
-
 # Initialize the Cloud Logging client
 client = google.cloud.logging.Client(project=settings.gcp_project_id)
 client.setup_logging()

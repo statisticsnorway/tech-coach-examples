@@ -23,7 +23,6 @@ print(f"{out_path=}")
 # %%
 import dapla as dp
 
-
 # %%
 df = dp.read_pandas(gcs_path=in_path)
 df.head()

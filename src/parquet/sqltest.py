@@ -15,7 +15,6 @@
 import dapla as dp
 import duckdb
 
-
 conn = duckdb.connect()
 
 # %%

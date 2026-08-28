@@ -8,10 +8,11 @@ license = "MIT"
 # without using ProjectRoot from ssb-fagfunksjoner.
 packages = [
     { include = "config" },
+    { include = "pytest_examples", from = "src" },
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.14"
+python = ">=3.12,<3.14"
 papermill = ">=2.4.0"
 dapla-toolbelt = ">=1.8.2"
 pandas = {extras = ["gcp", "performance"], version = ">=2.0.2"}
@@ -64,7 +65,6 @@ skip_empty = true
 profile = "black"
 force_single_line = true
 skip_gitignore = true
-lines_after_imports = 2
 # The line below is needed for jupyter notebooks stored as .py in percent format.
 # See https://github.com/PyCQA/isort/issues/1338 for details
 treat_comments_as_code = ["# %%"]
@@ -115,7 +115,6 @@ ignore = [
     "T201",   # Allow print statements.
     "ERA001", # Allow commented-out code, needed for jupytext.
     "INP001", # Don't require __init__.py file.
-    "PD901",  # Allow df as variable name.
     "B018",   # Like T201, allow expressions printing variables in notebooks.
     "C408",   # Allow unnecessary collection call since can be more readable.
     "D101",   # Don't require docstring.
