@@ -16,7 +16,6 @@ import pandas as pd
 from faker import Faker
 from hack4ssb2025_faker import SSBFaker
 
-
 # %% [markdown]
 # # Enkelt bruk av standard faker
 # Dette viser enkel bruk av standard faker til å generere norske navn, adresser osv.

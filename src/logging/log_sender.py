@@ -6,7 +6,6 @@ of the StatLogger class to receive and print the log messages.
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 
 
