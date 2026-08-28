@@ -42,7 +42,7 @@ requires-poetry = ">=2.2"
 # without using ProjectRoot from ssb-fagfunksjoner.
 packages = [
     { include = "config" },
-    { include = "functions", from = "src" },
+#     { include = "functions", from = "src" },
 ]
 
 [tool.poetry.dependencies]
