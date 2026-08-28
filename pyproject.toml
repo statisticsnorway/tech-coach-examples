@@ -12,7 +12,7 @@ dependencies = [
     "pyarrow >=23.0",
     "papermill (>=2.7.0,<3.0.0)",
     "pandas (>=3.0.5,<4.0.0)",
-    "duckdb (>=1.5.5,<2.0.0)",
+    "duckdb (==1.5.2)",
     "ssb-fagfunksjoner (>=1.1.4,<2.0.0)",
     "polars (>=1.44.1,<2.0.0)",
     "python-dotenv (>=1.2.3,<2.0.0)",
@@ -24,6 +24,7 @@ dependencies = [
     "pydantic (>=2.13.4,<3.0.0)",
     "ipydatagrid (>=1.4.0,<2.0.0)",
     "faker (>=40.37.0,<41.0.0)",
+    "ssb-parquedit (>=0.0.11,<0.0.12)",
 ]
 
 [dependency-groups]
