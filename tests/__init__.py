@@ -1,1 +1,1 @@
-"""Test suite for tech-coach-examples."""
+# This file is required by pytest

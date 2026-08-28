@@ -1,7 +1,7 @@
 {
   "template": "https://github.com/statisticsnorway/ssb-project-template-stat",
-  "commit": "cb5e93fbcb298920b3d76770352d823840c49a38",
-  "checkout": "1.0.0",
+  "commit": "f4e65906f8ee96999928837c117bc62a604c753c",
+  "checkout": "1.8.0",
   "context": {
     "cookiecutter": {
       "full_name": "Arne Sørli",
@@ -9,7 +9,8 @@
       "project_name": "tech-coach-examples",
       "description": "",
       "license_year": "2022",
-      "_template": "https://github.com/statisticsnorway/ssb-project-template-stat"
+      "_template": "https://github.com/statisticsnorway/ssb-project-template-stat",
+      "_commit": "f4e65906f8ee96999928837c117bc62a604c753c"
     }
   },
   "directory": null
