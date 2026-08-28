@@ -1,1 +1,1 @@
-# This file is required by pytest
+"""This file is required by pytest."""
