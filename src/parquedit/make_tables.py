@@ -39,8 +39,9 @@ df.columns = [
     .lower()
     for col in df.columns
 ]
-df = df.loc[:, ~df.columns.duplicated()].copy()
+df.columns = df.columns.str[:55]
 
+df = df.loc[:, ~df.columns.duplicated()].copy()
 print("Starting create")
 print(df)
 con.create_table(
@@ -55,31 +56,31 @@ view = con.view("prodtil_bulk")
 
 print(view)
 
-# con.create_table(table_name="prodtil_split_bulk", product_name="Testing med prodtil data",source=df, fill=False, user_defined_id=["soeknads_aar", "orgnr"])
-# for year in range(2017, 2026):
-#     con.insert_data(table_name="prodtil_split_bulk",source=df[df["soeknads_aar"] == year])
+con.create_table(table_name="prodtil_split_bulk", product_name="Testing med prodtil data",source=df, fill=False, user_defined_id=["soeknads_aar", "orgnr"])
+for year in range(2017, 2026):
+    con.insert_data(table_name="prodtil_split_bulk",source=df[df["soeknads_aar"] == year])
 
-# con.create_table(table_name="prodtil_single_row", product_name="Testing med prodtil data",source=df, fill=False, user_defined_id=["soeknads_aar", "orgnr"])
-# print("prodtil_single_row")
-# for row_no in range(len(df)):
-#     row = df.iloc[[row_no]]
+con.create_table(table_name="prodtil_single_row", product_name="Testing med prodtil data",source=df, fill=False, user_defined_id=["soeknads_aar", "orgnr"])
+print("prodtil_single_row")
+for row_no in range(len(df)):
+    row = df.iloc[[row_no]]
 
-#     con.insert_data(
-#         table_name="prodtil_single_row",
-#         source=row
-#     )
+    con.insert_data(
+        table_name="prodtil_single_row",
+        source=row
+    )
 
-# df = df.melt(id_vars=["soeknads_aar", "orgnr"])
+df = df.melt(id_vars=["soeknads_aar", "orgnr"])
 
-# con.create_table(table_name="prodtil_single_row_l", product_name="Testing med prodtil data",source=df, fill=False, user_defined_id=["soeknads_aar", "orgnr"])
-# print("prodtil_single_row_l")
-# for row_no in range(len(df)):
-#     row = df.iloc[[row_no]]
+con.create_table(table_name="prodtil_single_row_l", product_name="Testing med prodtil data",source=df, fill=False, user_defined_id=["soeknads_aar", "orgnr"])
+print("prodtil_single_row_l")
+for row_no in range(len(df)):
+    row = df.iloc[[row_no]]
 
-#     con.insert_data(
-#         table_name="prodtil_single_row_l",
-#         source=row
-#     )
+    con.insert_data(
+        table_name="prodtil_single_row_l",
+        source=row
+    )
 
 
 print("Done")

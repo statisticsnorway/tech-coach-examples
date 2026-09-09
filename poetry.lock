@@ -4354,7 +4354,7 @@ files = [
     {file = "ptyprocess-0.7.0-py2.py3-none-any.whl", hash = "sha256:4b41f3967fce3af57cc7e94b888626c18bf37a083e3651ca8feeb66d492fef35"},
     {file = "ptyprocess-0.7.0.tar.gz", hash = "sha256:5c5d0a3b48ceee0b48485e0c26037c0acd7d29765ca3fbb5cb3831d347423220"},
 ]
-markers = {main = "sys_platform != \"win32\" and sys_platform != \"emscripten\"", dev = "os_name != \"nt\" or sys_platform != \"win32\" and sys_platform != \"emscripten\""}
+markers = {main = "sys_platform != \"win32\" and sys_platform != \"emscripten\"", dev = "sys_platform != \"win32\" and sys_platform != \"emscripten\" or os_name != \"nt\""}
 
 [[package]]
 name = "pure-eval"
@@ -5405,14 +5405,14 @@ toml = ">=0.10.2"
 
 [[package]]
 name = "ssb-parquedit"
-version = "0.0.11"
+version = "0.0.12"
 description = "SSB Parquedit"
 optional = false
 python-versions = ">=3.12"
 groups = ["main"]
 files = [
-    {file = "ssb_parquedit-0.0.11-py3-none-any.whl", hash = "sha256:aae2b7fd5afb3183eb00ddfa8cf1ad5e185a64ad89eb70c01caaa1aa23092c5a"},
-    {file = "ssb_parquedit-0.0.11.tar.gz", hash = "sha256:80fd26af8a1e042823c81aeaa8fc64f80e73c514d9d366041611292d9a46ca1b"},
+    {file = "ssb_parquedit-0.0.12-py3-none-any.whl", hash = "sha256:cf9287d8147ee400f3702f222d4b5e42ffeec4db6df70fedcdd717b39c481127"},
+    {file = "ssb_parquedit-0.0.12.tar.gz", hash = "sha256:1aaa7d6c54bec4d07072c4c6d23164f963ff928098445ea8dbcd3d2ec08a0341"},
 ]
 
 [package.dependencies]
@@ -6026,4 +6026,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<4.0"
-content-hash = "bde315d261c0f9e5ce53912d6e4b7cd821f88c5a0c752223ff1dfae65a416bd8"
+content-hash = "55e302c79e5b76d6a60d01aa0fd50f93a25bf0a79bfd6deafdca8587b1fc5f90"
