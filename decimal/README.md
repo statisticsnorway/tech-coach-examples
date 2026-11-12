@@ -31,7 +31,7 @@ Parquet skiller mellom:
 Fra rotkatalogen i repoet:
 
 ```shell
-poetry run python decimal/decimal_parquet_example.py
+poetry run python decimal/decimal_parquet_notebook.py
 ```
 
 For å verifisere at Parquet-filene også leses med eksakte `Decimal`-verdier i R (med `arrow`-pakken):

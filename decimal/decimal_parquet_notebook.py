@@ -196,3 +196,125 @@ df_read
 # %%
 print("DataFrame dtypes:")
 print(df_read.dtypes)
+
+# %% [markdown]
+# ## 6. Demonstrasjon med Polars
+#
+# Polars har førsteklasses støtte for desimaltall via `pl.Decimal`-datatypen, og kan lese og skrive de samme filene sømløst og interoperabelt med Pandas/PyArrow og R.
+#
+# ### 6.1 Lese Parquet-filer med Polars
+#
+# Vi kan lese de eksisterende Parquet-filene (opprettet av Pandas/PyArrow) direkte inn i Polars med `pl.read_parquet`.
+# Polars oppdager automatisk desimal-kolonnene og leser dem som eksakte `Decimal`-typer med korrekt presisjon og skala.
+
+# %%
+import polars as pl
+
+print("=== Lese standard desimalfil med Polars ===")
+df_polars_read = pl.read_parquet(default_parquet)
+print(df_polars_read)
+
+# %%
+print("Polars DataFrame-skjema (schema):")
+for name, dtype in df_polars_read.schema.items():
+    print(f"Col: {name:<20} Type: {dtype}")
+
+# %% [markdown]
+# ### 6.2 Verifisere de store beløpene i Polars
+#
+# Akkurat som med PyArrow og i R, kan Polars skille de to store beløpene over flyttallsgrensen ($2^{53}$) fordi de er lagret som eksakte desimaler, ikke flyttall.
+
+# %%
+belop_1 = df_polars_read["belop"][0]
+belop_2 = df_polars_read["belop"][1]
+
+print("=== Store verdier lest inn i Polars ===")
+print(f"Verdi 1: {belop_1}")
+print(f"Verdi 2: {belop_2}")
+print(f"Er de to verdiene like i Polars? {belop_1 == belop_2}")
+
+# %% [markdown]
+# ### 6.3 Opprette en tilsvarende Polars DataFrame med desimaltyper
+#
+# Vi kan enkelt bygge en tilsvarende DataFrame i Polars og angi `pl.Decimal` med ønsket presisjon og skala i `schema`-parameteren.
+
+# %%
+df_polars_new = pl.DataFrame(
+    {
+        "item_id": [1, 2, 3, 4, 5],
+        "amount_float64": [float(v) for v in raw_values],
+        "amount_py_decimal": [Decimal(v) for v in raw_values],
+        "amount_decimal_p8": [Decimal(v) for v in raw_values],
+        "amount_decimal_p15": [Decimal(v) for v in raw_values],
+        "amount_decimal_p25": [Decimal(v) for v in raw_values],
+        "belop": [
+            Decimal("9007199254740992.01"),
+            Decimal("9007199254740992.02"),
+            None,
+            None,
+            None,
+        ],
+    },
+    schema={
+        "item_id": pl.Int64,
+        "amount_float64": pl.Float64,
+        "amount_py_decimal": pl.Decimal(6, 2),
+        "amount_decimal_p8": pl.Decimal(8, 2),
+        "amount_decimal_p15": pl.Decimal(15, 2),
+        "amount_decimal_p25": pl.Decimal(25, 2),
+        "belop": pl.Decimal(18, 2),
+    },
+)
+
+print(df_polars_new)
+
+# %% [markdown]
+# ### 6.4 Skrive og overskrive Parquet-filer med Polars
+#
+# Polars' innebygde Parquet-skriver (`write_parquet`) støtter desimaler direkte.
+#
+# **Viktig ytelsesdetalj:** Polars' native Parquet-skriver lagrer automatisk desimaler som kompakte heltall (`INT32` eller `INT64`) når presisjonen er 18 eller lavere (kompakt lagring). Dette skjer helt av seg selv!
+#
+# Hvis vi ønsker å tvinge standard `FIXED_LEN_BYTE_ARRAY`-lagring for lavere presisjoner (for å matche standardfilen nøyaktig), kan vi bruke PyArrow-motoren under panseret ved å sette `use_pyarrow=True` og sende med `pyarrow_options`.
+#
+# Vi demonstrerer begge deler ved å overskrive filene:
+
+# %%
+# 1. Skrive standard desimalfil (tvinge FIXED_LEN_BYTE_ARRAY med pyarrow)
+df_polars_new.write_parquet(
+    default_parquet,
+    use_pyarrow=True,
+    pyarrow_options={"store_decimal_as_integer": False},
+)
+
+# 2. Skrive kompakt desimalfil (Polars' native skriver gjør dette automatisk!)
+df_polars_new.write_parquet(int_parquet)
+
+print("Overskrevet de opprinnelige filene med Polars-generert Parquet!")
+
+# %% [markdown]
+# ### 6.5 Inspisere de Polars-genererte filene på disk
+#
+# Vi bruker den samme inspeksjons-funksjonen fra tidligere for å bekrefte at filene skrevet av Polars har nøyaktig de samme fysiske og logiske egenskapene!
+
+# %%
+print(
+    "=== Fysiske vs Logiske typer i default_parquet skrevet med Polars (via PyArrow) ==="
+)
+print(show_parquet_column_types(default_parquet))
+
+print("\n=== Fysiske vs Logiske typer i int_parquet skrevet natively med Polars ===")
+print(show_parquet_column_types(int_parquet))
+
+# %% [markdown]
+# ### 6.6 Bekrefte full interoperabilitet med Pandas og R
+#
+# Siden Polars har skrevet standardiserte Parquet-filer, kan Pandas lese dem tilbake helt feilfritt med nøyaktig de samme datatypene og verdiene.
+
+# %%
+df_pandas_from_polars = pd.read_parquet(
+    default_parquet, engine="pyarrow", dtype_backend="pyarrow"
+)
+print("Pandas leste fil skrevet av Polars:")
+print(df_pandas_from_polars.dtypes)
+print(df_pandas_from_polars)

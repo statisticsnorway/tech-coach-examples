@@ -12,7 +12,7 @@ int_parquet <- file.path(base_dir, "decimal_as_int_example.parquet")
 
 if (!file.exists(default_parquet) || !file.exists(int_parquet)) {
   stop(
-    "Parquet files not found. Run 'poetry run python decimal/decimal_parquet_example.py' first."
+    "Parquet files not found. Run 'poetry run python decimal/decimal_parquet_notebook.py' first."
   )
 }
 
