@@ -33,3 +33,9 @@ Fra rotkatalogen i repoet:
 ```shell
 poetry run python decimal/decimal_parquet_example.py
 ```
+
+For å verifisere at Parquet-filene også leses med eksakte `Decimal`-verdier i R (med `arrow`-pakken):
+
+```shell
+Rscript decimal/verify_decimal_parquet.R
+```

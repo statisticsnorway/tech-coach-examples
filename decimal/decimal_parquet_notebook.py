@@ -50,7 +50,9 @@ print("=== Avrunding til én desimal ===")
 # Siden den underliggende flyttallsverdien er litt mindre enn 103.55 (103.549999...),
 # vil round(103.55, 1) runde NED til 103.5 i stedet for OPP til 103.6.
 print(f"Python round(103.55, 1):                 {round(float_val, 1)}")
-print(f"Decimal ROUND_HALF_UP (avrunding):      {decimal_val.quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)}")
+print(
+    f"Decimal ROUND_HALF_UP (avrunding):      {decimal_val.quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)}"
+)
 
 # %% [markdown]
 # ## 2. Store beløp og grensen for flyttalls-presisjon ($2^{53}$)
@@ -125,12 +127,15 @@ df = pd.DataFrame(
     }
 )
 
-# Definer stier til testfiler
-default_parquet = Path("decimal_example.parquet")
-int_parquet = Path("decimal_as_int_example.parquet")
+# Definer stier til testfiler (sjekker om vi kjører fra rotkatalogen eller fra decimal-mappen)
+base_dir = Path("decimal") if Path("decimal").is_dir() else Path(".")
+default_parquet = base_dir / "decimal_example.parquet"
+int_parquet = base_dir / "decimal_as_int_example.parquet"
 
 # Lagre begge versjoner
-df.to_parquet(default_parquet, engine="pyarrow", index=False, store_decimal_as_integer=False)
+df.to_parquet(
+    default_parquet, engine="pyarrow", index=False, store_decimal_as_integer=False
+)
 df.to_parquet(int_parquet, engine="pyarrow", index=False, store_decimal_as_integer=True)
 
 print("Parquet-filer opprettet suksessfullt!")
@@ -141,6 +146,7 @@ print("Parquet-filer opprettet suksessfullt!")
 # For en vanlig Parquet-leser eller visningsverktøy ser skjemaene helt like ut. Dette er fordi begge filene har de samme **logiske typene** (f.eks. `Decimal(18, 2)`).
 #
 # Men under panseret bruker de forskjellige **fysiske lagringstyper**. Vi kan bruke PyArrow til å inspisere dette direkte.
+
 
 # %%
 def show_parquet_column_types(parquet_path: Path) -> pd.DataFrame:
@@ -163,6 +169,7 @@ def show_parquet_column_types(parquet_path: Path) -> pd.DataFrame:
             }
         )
     return pd.DataFrame(rows)
+
 
 # %%
 print("=== Fysiske vs Logiske typer i decimal_example.parquet ===")
@@ -189,14 +196,3 @@ df_read
 # %%
 print("DataFrame dtypes:")
 print(df_read.dtypes)
-
-# %% [markdown]
-# ## Opprydding
-# Vi sletter de genererte filene for å holde katalogen ren.
-
-# %%
-if default_parquet.exists():
-    default_parquet.unlink()
-if int_parquet.exists():
-    int_parquet.unlink()
-print("Midlertidige filer slettet.")
