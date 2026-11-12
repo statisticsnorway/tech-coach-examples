@@ -16,10 +16,10 @@
 #
 # Dette eksemplet demonstrerer hvorfor `Decimal` bør brukes fremfor `float` (`float64` / `DOUBLE`) når eksakte desimalverdier og korrekt avrunding er viktig, samt hvordan `Decimal`-kolonner lagres i Parquet-filer med logiske og fysiske datatyper.
 #
-# Vi vil også se på et ekstremt eksempel (`belop`-eksemplet) der store tall overskrider presisjonsgrensen for flyttall ($2^{53}$), og hvordan `Decimal` løser dette problemet.
+# Vi vil også se på et eksempel (`belop`-eksemplet) der store tall overskrider presisjonsgrensen for flyttall (2^53), og hvordan `Decimal` løser dette problemet.
 #
 # ## Forutsetninger
-# Vi bruker `pandas` og `pyarrow` for å lese, skrive og analysere Parquet-dataene.
+# Vi bruker `pandas`, `polars` og `pyarrow` for å lese, skrive og analysere Parquet-dataene.
 
 # %%
 from decimal import ROUND_HALF_UP
@@ -49,18 +49,18 @@ print()
 print("=== Avrunding til én desimal ===")
 # Siden den underliggende flyttallsverdien er litt mindre enn 103.55 (103.549999...),
 # vil round(103.55, 1) runde NED til 103.5 i stedet for OPP til 103.6.
-print(f"Python round(103.55, 1):                 {round(float_val, 1)}")
+print(f"Python round(103.55, 1):                {round(float_val, 1)}")
 print(
     f"Decimal ROUND_HALF_UP (avrunding):      {decimal_val.quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)}"
 )
 
 # %% [markdown]
-# ## 2. Store beløp og grensen for flyttalls-presisjon ($2^{53}$)
+# ## 2. Store beløp og grensen for flyttalls-presisjon (2^53)
 #
-# En spesiell utfordring med flyttall oppstår når tallene blir svært store (f.eks. i nasjonalregnskap eller store finansielle transaksjoner).
+# En spesiell utfordring med flyttall oppstår når tallene blir svært store.
 # Grensen for nøyaktig heltallsrepresentasjon i `float64` er nøyaktig $2^{53} = 9007199254740992$.
 #
-# Over denne grensen kan ikke flyttall representere partalls/oddetalls-forskjeller nøyaktig, og de mister helt evnen til å lagre desimaler (f.eks. cent eller øre).
+# Over denne grensen kan ikke flyttall representere partalls/oddetalls-forskjeller nøyaktig, og de mister helt evnen til å lagre desimaler (f.eks. øre).
 #
 # La oss se på verdiene:
 # * `9007199254740992.01`
@@ -87,7 +87,7 @@ print(f"Er de to desimaltallene like? {decimal_large_1 == decimal_large_2}")
 #
 # Nå lager vi et test-datasett med ulike desimaltyper. Vi lagrer datasettet på to måter:
 # 1. **Standard Decimal-lagring** (lagres som `FIXED_LEN_BYTE_ARRAY` i Parquet).
-# 2. **Kompakt Decimal-lagring** (`store_decimal_as_integer=True`), som bruker standard heltallstyper (`INT32` / `INT64`) for desimaler med presisjon $\le 18$.
+# 2. **Kompakt Decimal-lagring** (`store_decimal_as_integer=True`), som bruker standard heltallstyper (`INT32` / `INT64`) for desimaler med presisjon < 18.
 
 # %%
 raw_values = ["103.55", "10.05", "1.15", "2.55", "1999.95"]
@@ -273,7 +273,7 @@ print(df_polars_new)
 #
 # Polars' innebygde Parquet-skriver (`write_parquet`) støtter desimaler direkte.
 #
-# **Viktig ytelsesdetalj:** Polars' native Parquet-skriver lagrer automatisk desimaler som kompakte heltall (`INT32` eller `INT64`) når presisjonen er 18 eller lavere (kompakt lagring). Dette skjer helt av seg selv!
+# **Viktig ytelsesdetalj:** Polars' native Parquet-skriver lagrer automatisk desimaler som kompakte heltall (`INT32` eller `INT64`) når presisjonen er 18 eller lavere (kompakt lagring). Dette skjer helt av seg selv.
 #
 # Hvis vi ønsker å tvinge standard `FIXED_LEN_BYTE_ARRAY`-lagring for lavere presisjoner (for å matche standardfilen nøyaktig), kan vi bruke PyArrow-motoren under panseret ved å sette `use_pyarrow=True` og sende med `pyarrow_options`.
 #
