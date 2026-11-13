@@ -30,6 +30,22 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 
+
+def show(df):
+    """Viser en DataFrame tilpasset kjøremiljøet (display() i Jupyter, print() i skript)."""
+    try:
+        from IPython import get_ipython
+
+        if get_ipython() is not None:
+            from IPython.display import display
+
+            display(df)
+            return
+    except (ImportError, NameError):
+        pass
+    print(df)
+
+
 # %% [markdown]
 # ## 1. Flyttall (`float64`) vs `Decimal`
 #
@@ -173,11 +189,11 @@ def show_parquet_column_types(parquet_path: Path) -> pd.DataFrame:
 
 # %%
 print("=== Fysiske vs Logiske typer i decimal_example.parquet ===")
-show_parquet_column_types(default_parquet)
+show(show_parquet_column_types(default_parquet))
 
 # %%
 print("=== Fysiske vs Logiske typer i decimal_as_int_example.parquet ===")
-show_parquet_column_types(int_parquet)
+show(show_parquet_column_types(int_parquet))
 
 # %% [markdown]
 # ### Hva skjedde med `belop`?
@@ -191,7 +207,7 @@ show_parquet_column_types(int_parquet)
 
 # %%
 df_read = pd.read_parquet(default_parquet, engine="pyarrow", dtype_backend="pyarrow")
-df_read
+show(df_read)
 
 # %%
 print("DataFrame dtypes:")
@@ -212,7 +228,7 @@ import polars as pl
 
 print("=== Lese standard desimalfil med Polars ===")
 df_polars_read = pl.read_parquet(default_parquet)
-print(df_polars_read)
+show(df_polars_read)
 
 # %%
 print("Polars DataFrame-skjema (schema):")
@@ -266,7 +282,7 @@ df_polars_new = pl.DataFrame(
     },
 )
 
-print(df_polars_new)
+show(df_polars_new)
 
 # %% [markdown]
 # ### 6.4 Skrive og overskrive Parquet-filer med Polars
@@ -301,15 +317,16 @@ print("Overskrevet de opprinnelige filene med Polars-generert Parquet!")
 print(
     "=== Fysiske vs Logiske typer i default_parquet skrevet med Polars (via PyArrow) ==="
 )
-print(show_parquet_column_types(default_parquet))
+show(show_parquet_column_types(default_parquet))
 
 print("\n=== Fysiske vs Logiske typer i int_parquet skrevet natively med Polars ===")
-print(show_parquet_column_types(int_parquet))
+show(show_parquet_column_types(int_parquet))
 
 # %% [markdown]
 # ### 6.6 Bekrefte full interoperabilitet med Pandas og R
 #
 # Siden Polars har skrevet standardiserte Parquet-filer, kan Pandas lese dem tilbake helt feilfritt med nøyaktig de samme datatypene og verdiene.
+# For å teste med R kjører kommandoen: `Rscript decimal/verify_decimal_parquet.R`.
 
 # %%
 df_pandas_from_polars = pd.read_parquet(
@@ -317,4 +334,4 @@ df_pandas_from_polars = pd.read_parquet(
 )
 print("Pandas leste fil skrevet av Polars:")
 print(df_pandas_from_polars.dtypes)
-print(df_pandas_from_polars)
+show(df_pandas_from_polars)
