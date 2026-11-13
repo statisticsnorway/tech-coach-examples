@@ -1,18 +1,18 @@
 # Example script showing how to read and verify Parquet Decimal columns in R.
 #
 # Run from the repository root:
-#   Rscript decimal/verify_decimal_parquet.R
+#   Rscript src/decimal/verify_decimal_parquet.R
 
 suppressPackageStartupMessages(library(arrow))
 
-# Resolve file paths whether run from repo root or inside the decimal/ folder
-base_dir <- if (dir.exists("decimal")) "decimal" else "."
+# Resolve file paths whether run from repo root or inside the src/decimal/ folder
+base_dir <- if (dir.exists("src/decimal")) "src/decimal" else "."
 default_parquet <- file.path(base_dir, "decimal_example.parquet")
 int_parquet <- file.path(base_dir, "decimal_as_int_example.parquet")
 
 if (!file.exists(default_parquet) || !file.exists(int_parquet)) {
   stop(
-    "Parquet files not found. Run 'poetry run python decimal/decimal_parquet_notebook.py' first."
+    "Parquet files not found. Run 'poetry run python src/decimal/decimal_parquet_notebook.py' first."
   )
 }
 

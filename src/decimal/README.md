@@ -31,11 +31,11 @@ Parquet skiller mellom:
 Fra rotkatalogen i repoet:
 
 ```shell
-poetry run python decimal/decimal_parquet_notebook.py
+poetry run python src/decimal/decimal_parquet_notebook.py
 ```
 
 For å verifisere at Parquet-filene også leses med eksakte `Decimal`-verdier i R (med `arrow`-pakken):
 
 ```shell
-Rscript decimal/verify_decimal_parquet.R
+Rscript src/decimal/verify_decimal_parquet.R
 ```

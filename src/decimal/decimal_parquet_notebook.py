@@ -143,8 +143,8 @@ df = pd.DataFrame(
     }
 )
 
-# Definer stier til testfiler (sjekker om vi kjører fra rotkatalogen eller fra decimal-mappen)
-base_dir = Path("decimal") if Path("decimal").is_dir() else Path(".")
+# Definer stier til testfiler (sjekker om vi kjører fra rotkatalogen eller fra src/decimal-mappen)
+base_dir = Path("src/decimal") if Path("src/decimal").is_dir() else Path(".")
 default_parquet = base_dir / "decimal_example.parquet"
 int_parquet = base_dir / "decimal_as_int_example.parquet"
 
@@ -326,7 +326,7 @@ show(show_parquet_column_types(int_parquet))
 # ### 6.6 Bekrefte full interoperabilitet med Pandas og R
 #
 # Siden Polars har skrevet standardiserte Parquet-filer, kan Pandas lese dem tilbake helt feilfritt med nøyaktig de samme datatypene og verdiene.
-# For å teste med R kjører kommandoen: `Rscript decimal/verify_decimal_parquet.R`.
+# For å teste med R kjører kommandoen: `Rscript src/decimal/verify_decimal_parquet.R`.
 
 # %%
 df_pandas_from_polars = pd.read_parquet(
