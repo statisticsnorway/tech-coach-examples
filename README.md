@@ -9,6 +9,7 @@ for utvikling på Dapla.
   - _automation:_ Katalog relatert til å kjøre mange ting i sekvens, dvs. autmatisering.
     - _papermill:_ Viser bruk og oppsett av [papermill].
     - _pythonfunctions:_ Anbefalt løsning. Se beskrivelse på [Confluence].
+  - _decimal:_ Eksempler som viser bruk av `Decimal` fremfor `float` i Parquet-filer. Se egen [README-fil](./src/decimal/README.md) for detaljer.
   - _jupyter:_ Katalog for jupyter notebooks eksempler
     - _jupytext_ipynb.py:_ Viser bruk og oppsett av [jupytext]
       for å lagre Jupyter notebooks som rene python-filer.
