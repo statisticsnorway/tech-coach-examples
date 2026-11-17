@@ -323,10 +323,10 @@ print("\n=== Fysiske vs Logiske typer i int_parquet skrevet natively med Polars 
 show(show_parquet_column_types(int_parquet))
 
 # %% [markdown]
-# ### 6.6 Bekrefte full interoperabilitet med Pandas og R
+# ### 6.6 Bekrefte full interoperabilitet med Pandas
 #
 # Siden Polars har skrevet standardiserte Parquet-filer, kan Pandas lese dem tilbake helt feilfritt med nøyaktig de samme datatypene og verdiene.
-# For å teste med R kjører kommandoen: `Rscript src/decimal/verify_decimal_parquet.R`.
+#
 
 # %%
 df_pandas_from_polars = pd.read_parquet(
@@ -335,3 +335,16 @@ df_pandas_from_polars = pd.read_parquet(
 print("Pandas leste fil skrevet av Polars:")
 print(df_pandas_from_polars.dtypes)
 show(df_pandas_from_polars)
+
+# %% [markdown]
+# ## 7 Interoperabilitet med R
+#
+# For å teste med R kjør kommandoen: `Rscript src/decimal/verify_decimal_parquet.R`.
+#
+# Alt virker hvis man leser inn parquet filen som Arrow tabell og ikke dataframe,
+# slik som dette `read_parquet(default_parquet, as_data_frame = FALSE)`.
+#
+# Hvis man leser det inn som Dataframe i R så konverteres verdiene til float og man
+# mister Decimal egenskapene. Vær oppmerksom på at dette skjer hvis man bruker ssb-rwrapr
+# til å kalle en R-funksjon fra python og man sender med en dataframe.
+# Den vil da konverteres til en R-dataframe under panseret.
